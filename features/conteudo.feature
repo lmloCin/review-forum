@@ -19,3 +19,17 @@ Then eu devo visualizar a mensagem "Sua review para 'Retrato de uma Jovem em Cha
 And minha avaliação, contendo o texto "Fotografia belíssima e uma história tocante." e a nota "5 de 5 estrelas", deve estar visível na página do filme 
 And a nota média geral do filme "Retrato de uma Jovem em Chamas" deve ser recalculada considerando minha nova nota
 
+Scenario:Administrador cadastra novo filme no catálogo  	
+Given eu estou logado como um usuário "admin_sistema" com permissões de administrador 
+And eu estou na funcionalidade para adicionar um novo filme 
+When eu tento cadastrar um filme com as seguintes informações: 
+| Título | Ano | Diretor | Gênero Principal | 
+| Mad Max: Estrada da Fúria | 2015 | George Miller | Ação | 
+Then eu devo visualizar a mensagem de confirmação "Filme 'Mad Max: Estrada da Fúria' cadastrado com sucesso." 
+And o filme "Mad Max: Estrada da Fúria" deve constar no sistema com os dados fornecidos: ano "2015", diretor "George Miller" e gênero "Ação"
+
+Scenario: Visualizar onde um filme está disponível para assistir 
+Given o filme "Interestelar" está cadastrado no sistema 
+And as informações de disponibilidade para "Interestelar" são: "Streaming em 'Max' e Aluguel em 'Amazon Prime Video'" 
+When eu consulto a seção "Onde Assistir" na página de detalhes do filme "Interestelar" 
+Then eu devo ser informado que o filme está disponível para streaming em "Max" 
