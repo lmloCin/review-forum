@@ -33,3 +33,11 @@ Given o filme "Interestelar" está cadastrado no sistema
 And as informações de disponibilidade para "Interestelar" são: "Streaming em 'Max' e Aluguel em 'Amazon Prime Video'" 
 When eu consulto a seção "Onde Assistir" na página de detalhes do filme "Interestelar" 
 Then eu devo ser informado que o filme está disponível para streaming em "Max" 
+
+Scenario: Administrador edita o gênero de um filme existente 
+Given eu estou logado como um usuário "admin_sistema" com permissões de administrador 
+And o filme "O Poderoso Chefão" existe no sistema com gênero "Drama" e ano "1972" 
+When eu tento atualizar o "Gênero Principal" do filme "O Poderoso Chefão" para "Crime" 
+Then eu devo visualizar a mensagem "Informações do filme 'O Poderoso Chefão' atualizadas com sucesso." 
+And na página de detalhes do filme "O Poderoso Chefão", o gênero exibido deve ser "Crime" 
+And o ano "1972" do filme "O Poderoso Chefão" deve continuar o mesmo
