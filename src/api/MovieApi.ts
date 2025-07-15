@@ -5,27 +5,27 @@ const MovieRouter = Router();
 /**
  * @swagger
  * /api/movies:
- * get:
- * summary: Get all movies
- * responses:
- * 200:
- * description: List of movies
- * post:
- * summary: Create a movie
- * requestBody:
- * required: true
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * name:
- * type: string
- * description:
- * type: string
- * responses:
- * 200:
- * description: Movie created
+ *   get:
+ *     summary: Get all movies
+ *     responses:
+ *       200:
+ *         description: List of movies
+ *   post:
+ *     summary: Create a movie
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Movie created
  */
 MovieRouter.get('/', async (request, response) => {
     const results = await MovieServices.getAll()
@@ -35,33 +35,33 @@ MovieRouter.get('/', async (request, response) => {
 /**
  * @swagger
  * /api/movies:
- * post:
- * summary: Create a movie
- * requestBody:
- * required: true
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * name:
- * type: string
- * description:
- * type: string
- * year:
- * type: integer
- * example: 2015
- * director:
- * type: string
- * example: "George Miller"
- * genre:
- * type: string
- * example: "Ação"
- * responses:
- * 201:
- * description: Movie created successfully
- * 400:
- * description: Bad request (e.g., missing fields)
+ *   post:
+ *     summary: Create a movie
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               year:
+ *                 type: integer
+ *                 example: 2015
+ *               director:
+ *                 type: string
+ *                 example: "George Miller"
+ *               genre:
+ *                 type: string
+ *                 example: "Ação"
+ *     responses:
+ *       201:
+ *         description: Movie created successfully
+ *       400:
+ *         description: Bad request (e.g., missing fields)
  */
 MovieRouter.post('/', async (request: Request, response: Response) => {
     try {
@@ -79,20 +79,20 @@ MovieRouter.post('/', async (request: Request, response: Response) => {
 /**
  * @swagger
  * /api/movies/get-by-id/{id}:
- * get:
- * summary: Get a movie by its ID
- * parameters:
- * - name: id
- * in: path
- * description: Movie ID
- * required: true
- * schema:
- * type: integer
- * responses:
- * 200:
- * description: Desired movie
- * 404:
- * description: No movie was founded with that ID
+ *   get:
+ *     summary: Get a movie by its ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: Movie ID
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Desired movie
+ *       404:
+ *         description: No movie was founded with that ID
  */
 MovieRouter.get('/get-by-id/:id', async (request: Request, response: Response) => {
     const id = request.params['id']
@@ -103,39 +103,39 @@ MovieRouter.get('/get-by-id/:id', async (request: Request, response: Response) =
 /**
  * @swagger
  * /api/movies/{id}:
- * put:
- * summary: Update an existing movie
- * parameters:
- * - name: id
- * in: path
- * description: Movie ID to update
- * required: true
- * schema:
- * type: integer
- * requestBody:
- * required: true
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * name:
- * type: string
- * description:
- * type: string
- * year:
- * type: integer
- * director:
- * type: string
- * genre:
- * type: string
- * responses:
- * 200:
- * description: Movie updated successfully
- * 400:
- * description: Invalid input
- * 404:
- * description: Movie not found
+ *     put:
+ *         summary: Update an existing movie
+ *         parameters:
+ *             - name: id
+ *               in: path
+ *               description: Movie ID to update
+ *               required: true
+ *               schema:
+ *                   type: integer
+ *         requestBody:
+ *             required: true
+ *             content:
+ *                 application/json:
+ *                     schema:
+ *                         type: object
+ *                         properties:
+ *                             name:
+ *                                 type: string
+ *                             description:
+ *                                 type: string
+ *                             year:
+ *                                 type: integer
+ *                             director:
+ *                                 type: string
+ *                             genre:
+ *                                 type: string
+ *     responses:
+ *       200:
+ *         description: Movie updated successfully
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Movie not found
  */
 MovieRouter.put('/:id', async (request: Request, response: Response) => {
     try {
@@ -161,61 +161,56 @@ MovieRouter.put('/:id', async (request: Request, response: Response) => {
     }
 });
 
-// ... outras rotas (GET /, POST /, etc.) ...
 
 /**
  * @swagger
  * /api/movies/details/{id}:
- * get:
- * summary: Get movie details including reviews and average rating
- * parameters:
- * - name: id
- * in: path
- * description: Movie ID
- * required: true
- * schema:
- * type: integer
- * responses:
- * 200:
- * description: Movie details with reviews and availability
- * # --- ALTERAÇÃO INÍCIO ---
- * # A documentação do schema da resposta foi atualizada
- * # para incluir o novo campo 'availability'.
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * id:
- * type: integer
- * name:
- * type: string
- * description:
- * type: string
- * averageRating:
- * type: number
- * reviews:
- * type: array
- * items:
- * type: object
- * availability:
- * type: object
- * properties:
- * streaming:
- * type: array
- * items:
- * type: string
- * rent:
- * type: array
- * items:
- * type: string
- * purchase:
- * type: array
- * items:
- * type: string
- * # --- ALTERAÇÃO FIM ---
- * 404:
- * description: Movie not found
+ *   get:
+ *     summary: Get movie details including reviews and average rating
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: Movie ID
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Movie details with reviews and availability
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 averageRating:
+ *                   type: number
+ *                 reviews:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 availability:
+ *                   type: object
+ *                   properties:
+ *                     streaming:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     rent:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     purchase:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *       404:
+ *         description: Movie not found
  */
 MovieRouter.get('/details/:id', async (request: Request, response: Response) => {
     try {
@@ -240,20 +235,20 @@ MovieRouter.get('/details/:id', async (request: Request, response: Response) => 
 /**
  * @swagger
  * /api/movies/search:
- * get:
- * summary: Search movies by title
- * parameters:
- * - name: name
- * in: query
- * description: Search movies from their title
- * required: true
- * schema:
- * type: string
- * responses:
- * 200:
- * description: List of movies with likely titles
- * 404:
- * description: No movie was founded with that title
+ *   get:
+ *     summary: Search movies by title
+ *     parameters:
+ *       - name: name
+ *         in: query
+ *         description: Search movies from their title
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of movies with likely titles
+ *       404:
+ *         description: No movie was founded with that title
  */
 MovieRouter.get('/search', async(request: Request, response: Response) => {
     const params = request.query;
