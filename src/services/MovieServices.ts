@@ -26,7 +26,6 @@ export default class MovieServices {
         return MovieRepository.getById(id)
     }
 
-    // Novo método para a feature de detalhes do filme
     public static async getMovieDetails(movieId: number): Promise<{
         id: number;
         name: string;
@@ -65,18 +64,14 @@ export default class MovieServices {
     }
 
     static async update(id: number, movieUpdateDTO: any) {
-        // Busca o filme existente no banco de dados.
         const movieToUpdate = await MovieRepository.getById(id);
 
         if (!movieToUpdate) {
             throw new Error('Filme não encontrado com esse id');
         }
 
-        // Atualiza o objeto do filme com os novos dados do DTO.
-        // O Object.assign copia apenas as propriedades do DTO para o objeto existente.
         Object.assign(movieToUpdate, movieUpdateDTO);
 
-        // Salva a entidade atualizada de volta no banco.
         return MovieRepository.saveMovie(movieToUpdate);
     }
 
@@ -85,5 +80,15 @@ export default class MovieServices {
         if (!movieDTO.name) {
             throw new Error('O nome do filme é requerido')
         }
+    }
+
+        static async delete(movieId: number): Promise<void> {
+
+        const movieToDelete = await MovieRepository.getById(movieId);
+        if (!movieToDelete) {
+            throw new Error(`Filme com ID ${movieId} não encontrado.`);
+        }
+
+        await MovieRepository.deleteById(movieId);
     }
 }

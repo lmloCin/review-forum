@@ -7,4 +7,13 @@ export default class ReviewRepository {
     static saveReview(review: Review): Promise<Review> {
         return reviewRepository.save(review);
     }
+
+    static findById(id: number): Promise<Review | null> {
+        return reviewRepository.findOneBy({ id });
+    }
+
+    static deleteById(id: number): Promise<any> {
+        return reviewRepository.delete(id);
+    }
+
 }

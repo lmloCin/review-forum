@@ -17,12 +17,11 @@ export default class MovieRepository {
         })
     }
 
-    // Novo método para buscar um filme junto com suas reviews
     static findByIdWithReviews(id: number): Promise<Movie | null> {
         return movieRepository.findOne({
             where: { id: id },
             relations: {
-                reviews: true, // Isso instrui o TypeORM a carregar as reviews relacionadas.
+                reviews: true, 
             },
         });
     }
@@ -34,4 +33,9 @@ export default class MovieRepository {
     static saveMovie(movie: Movie) : Promise<any> {
         return movieRepository.save(movie)
     }
+
+    static deleteById(id: number): Promise<any> {
+        return movieRepository.delete(id);
+    }
+
 }

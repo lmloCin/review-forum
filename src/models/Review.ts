@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, UpdateDateColumn } from 'typeorm';
 import { Movie } from './Movie';
 /**
  * src/models/Review.ts (Novo arquivo de entidade)
@@ -15,7 +15,12 @@ export class Review {
     @Column('int')
     rating!: number;
 
-    // Relacionamento: Muitas reviews pertencem a um filme.
+    @UpdateDateColumn()
+    updated_at!: Date;
+
+    @Column({ default: false })
+    isEdited!: boolean;
+
     @ManyToOne(() => Movie, movie => movie.reviews)
     movie!: Movie;
     

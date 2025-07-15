@@ -31,9 +31,11 @@ export class Movie {
     @CreateDateColumn()
     created_at!: Date;
 
-    // Relacionamento: Um filme tem muitas reviews.
-    // O TypeORM usará isso para carregar as reviews associadas.
-    @OneToMany(() => Review, review => review.movie)
+
+    @OneToMany(() => Review, review => review.movie, {
+        cascade: true,
+        onDelete: 'CASCADE',
+    })
     reviews!: Review[];
 
     constructor(name: string, description: string, year: number, director: string, genre: string, availability?: any) {

@@ -152,7 +152,6 @@ MovieRouter.put('/:id', async (request: Request, response: Response) => {
             movie: updatedMovie
         });
     } catch (error: any) {
-        // Se o serviço lançar um erro (ex: filme não encontrado), ele será capturado aqui.
         if (error.message.includes('não encontrado')) {
             response.status(404).json({ message: error.message });
         } else {
@@ -231,6 +230,45 @@ MovieRouter.get('/details/:id', async (request: Request, response: Response) => 
         response.status(500).send({ message: "Erro interno do servidor." });
     }
 });
+
+
+/**
+ * @swagger
+ * /api/movies/{id}:
+ *     delete:
+ *       summary: Delete a movie by its ID
+ *       parameters:
+ *         - name: id
+ *           in: path
+ *           description: Movie ID to delete
+ *           required: true
+ *           schema:
+ *             type: integer
+ *       responses:
+ *         '200':
+ *           description: Movie and its reviews deleted successfully
+ *         '404':
+ *           description: Movie not found
+ */
+MovieRouter.delete('/:id', async (request: Request, response: Response) => {
+    try {
+        const movieId = Number(request.params.id);
+        if (isNaN(movieId)) {
+            return response.status(400).json({ message: "ID inválido." });
+        }
+
+        await MovieServices.delete(movieId);
+
+        response.status(200).json({ message: "Filme e todas as suas reviews foram deletados com sucesso." });
+    } catch (error: any) {
+        if (error.message.includes('não encontrado')) {
+            response.status(404).json({ message: error.message });
+        } else {
+            response.status(500).json({ message: "Erro interno do servidor." });
+        }
+    }
+});
+
 
 /**
  * @swagger

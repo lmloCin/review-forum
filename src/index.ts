@@ -15,7 +15,7 @@ AppDataSource.initialize()
     .then(() => {
         console.log("Data Source inicializado com sucesso!");
 
-        // Configura as rotas APÓS a conexão com o banco ser estabelecida
+
         app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
         app.use('/api/movies', MovieRouter);
         app.use('/api/reviews', ReviewRouter);
@@ -26,7 +26,6 @@ AppDataSource.initialize()
             res.send('Landing page is up!')
         });
 
-        // Inicia o servidor Express
         app.listen(PORT, () => {
             console.log(`Servidor está rodando 🚀 na porta ${PORT}`);
         });
