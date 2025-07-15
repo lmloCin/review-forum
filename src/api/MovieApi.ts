@@ -8,6 +8,7 @@ const MovieRouter = Router()
  * /api/movies:
  *   get:
  *     summary: Get all movies
+ *     tags: [movies]
  *     responses:
  *       200:
  *         description: List of movies
@@ -22,11 +23,12 @@ MovieRouter.get('/', async (request, response) => {
  * /api/movies/get-by-id/{id}:
  *   get:
  *     summary: Get all movies
-*     parameters:
-*      - name: id
-*        in: path
-*        description: Movie ID
-*        required: true
+ *     tags: [movies]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Movie ID
+ *        required: true
  *     responses:
  *       200:
  *         description: Desired movie
@@ -44,11 +46,12 @@ MovieRouter.get('/get-by-id/:id', async (request: Request, response: Response) =
  * /api/movies/search/:
  *   get:
  *     summary: Get all movies
-*     parameters:
-*      - name: name
-*        in: query
-*        type: string
-*        description: Search movies from their title
+ *     tags: [movies]
+ *     parameters:
+ *      - name: name
+ *        in: query
+ *        type: string
+ *        description: Search movies from their title
 *        required: false
  *     responses:
  *       200:
@@ -68,6 +71,7 @@ MovieRouter.get('/search', async(request: Request, response: Response) => {
  * /api/movies/:
  *   post:
  *     summary: Create a movie
+ *     tags: [movies]
  *     requestBody:
  *       required: true
  *       content:
@@ -85,7 +89,6 @@ MovieRouter.get('/search', async(request: Request, response: Response) => {
  */
 MovieRouter.post('/', async (request, response) => {
     const movieDTO = request.body
-    console.log(movieDTO)
     const persistedMovie = await MovieServices.add(movieDTO)
     response.send(persistedMovie)
 })

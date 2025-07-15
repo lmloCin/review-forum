@@ -1,3 +1,4 @@
+import { UpdateResult } from "typeorm";
 import { AppDataSource } from "../infra/setup_db";
 import { Forum } from "../models/Forum";
 
@@ -15,12 +16,17 @@ export default class ForumRepository {
   }
 
   getAll(): Promise<Forum[]> {
-    return this.forumRepo.find();
+    return this.forumRepo.find(
+      {
+        relations: ["related_movie"]
+      }
+    );
   }
 
   getById(id: Number): Promise<Forum | null> {
     return this.forumRepo.findOne({
-      where: { id }
+      where: { id },
+      relations: ["related_movie"]
     });
   }
 
@@ -33,7 +39,8 @@ export default class ForumRepository {
 
   searchByCreatorUser(username: string): Promise<Forum[]> {
     return this.forumRepo.find({
-      where: { generated_by_user: username }
+      where: { username },
+      relations: ["related_movie"]
     });
   }
 

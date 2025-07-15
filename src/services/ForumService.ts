@@ -27,11 +27,23 @@ export default class ForumService {
     searchByCreatorUser(username: string): Promise<Forum[]> {
         return ForumRepository.getInstance().searchByCreatorUser(username)
     }
+
+    async updateForum(forum: Forum): Promise<any> {
+        const existingForum = await ForumRepository.getInstance().getById(forum.id);
+        if (!existingForum) {
+            throw new Error('Forum not found');
+        }
+
+        existingForum.title = forum.title;
+        existingForum.description = forum.description || '';
+        return ForumRepository.getInstance().saveForum(existingForum);
+    }
     
     async saveForum(forum: any): Promise<any> {
-        const relatedMovie= await MovieServices.getById(forum.relatedMovieId)
+        const relatedMovie= await MovieServices.getById(forum.movieId)
+        
         if (!relatedMovie) {
-            throw Error('TODO create a this error properly')
+            throw Error('Filme relacionado não encontrado')
         }
 
         if (!forum.title) {
