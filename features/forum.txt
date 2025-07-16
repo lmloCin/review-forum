@@ -1,3 +1,5 @@
+Feature: Forum Management
+
 Scenario: creating a forum
 Given a user named "var3"
 And he is on the "Forums Listing" page

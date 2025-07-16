@@ -34,8 +34,8 @@ export default class MovieRepository {
         return movieRepository.save(movie)
     }
 
-    static deleteById(id: number): Promise<any> {
-        return movieRepository.delete(id);
+    static remove(movie: Movie): Promise<Movie> {
+        return movieRepository.remove(movie);
     }
 
 }

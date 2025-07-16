@@ -40,9 +40,12 @@ export class ReviewService {
         static async update(reviewId: number, reviewUpdateDTO: ReviewUpdateDTO): Promise<Review> {
 
         const reviewToUpdate = await ReviewRepository.findById(reviewId);
+        
+     
         if (!reviewToUpdate) {
             throw new Error(`Review com ID ${reviewId} não encontrada.`);
         }
+
 
         if (reviewUpdateDTO.text) {
             reviewToUpdate.text = reviewUpdateDTO.text;

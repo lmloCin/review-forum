@@ -23,11 +23,11 @@ const ReviewRouter = Router();
  *                                 maximum: 5
  *                             movieId:
  *                                 type: integer
- *                         responses:
- *                             '201':
- *                                 description: Review created successfully
- *                             '400':
- *                                 description: Bad request (e.g., missing fields or invalid movie ID)
+ *         responses:
+ *             '201':
+ *                 description: Review created successfully
+ *             '400':
+ *                 description: Bad request (e.g., missing fields or invalid movie ID)
  */
 ReviewRouter.post('/', async (request: Request, response: Response) => {
     try {
@@ -64,11 +64,11 @@ ReviewRouter.post('/', async (request: Request, response: Response) => {
  *                               type: integer
  *                               minimum: 1
  *                               maximum: 5
- *                       responses:
- *                           '200':
- *                               description: Review updated successfully
- *                           '404':
- *                               description: Review not found
+ *         responses:
+ *             '200':
+ *                 description: Review updated successfully
+ *             '404':
+ *                 description: Review not found
  */
 ReviewRouter.put('/:id', async (request: Request, response: Response) => {
     try {
@@ -102,11 +102,11 @@ ReviewRouter.put('/:id', async (request: Request, response: Response) => {
  *                required: true
  *                schema:
  *                  type: integer
- *                  responses:
- *                      '200':
- *                          description: Review deleted successfully
- *                      '404':
- *                          description: Review not found
+ *              responses:
+ *                  '200':
+ *                      description: Review deleted successfully
+ *                  '404':
+ *                      description: Review not found
  */
 ReviewRouter.delete('/:id', async (request: Request, response: Response) => {
     try {

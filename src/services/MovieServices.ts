@@ -1,6 +1,7 @@
 import { Movie } from "../models/Movie"
 import MovieRepository from "../repository/MovieRepository"
 import { Review } from '../models/Review';
+import ReviewRepository from "../repository/ReviewRepository";
 
 
 export default class MovieServices {
@@ -83,12 +84,26 @@ export default class MovieServices {
     }
 
         static async delete(movieId: number): Promise<void> {
-
-        const movieToDelete = await MovieRepository.getById(movieId);
+        // Passo 1: Busca a entidade completa do filme, INCLUINDO as reviews.
+        const movieToDelete = await MovieRepository.findByIdWithReviews(movieId);
+        
+        // Passo 2: Verifica se o filme existe.
         if (!movieToDelete) {
             throw new Error(`Filme com ID ${movieId} não encontrado.`);
         }
 
-        await MovieRepository.deleteById(movieId);
+        // Passo 3: Se o filme tiver reviews, itera sobre elas e deleta cada uma.
+        // Usar um loop for...of com await é mais seguro do que Promise.all para
+        // garantir que cada operação termine antes da próxima.
+        if (movieToDelete.reviews && movieToDelete.reviews.length > 0) {
+            for (const review of movieToDelete.reviews) {
+                await ReviewRepository.deleteById(review.id);
+            }
+        }
+
+        // Passo 4: Após as reviews serem removidas, remove o filme.
+        await MovieRepository.remove(movieToDelete);
     }
 }
+
+
