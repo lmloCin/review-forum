@@ -38,4 +38,8 @@ export default class MovieRepository {
         return movieRepository.remove(movie);
     }
 
+    static deleteById(id: number): Promise<any> {
+        return movieRepository.delete(id);
+    }
+
 }

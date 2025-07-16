@@ -190,6 +190,7 @@ Given('existem reviews associadas ao filme com id {string}', async function (mov
 
 Then('o filme com id {string} não deve mais existir no sistema', async function (id) {
   try {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await axios.get(`${API_BASE_URL}/api/movies/get-by-id/${this.movieIdToDelete}`);
     assert.fail("O filme ainda existe, mas deveria ter sido deletado.");
   } catch (error) {

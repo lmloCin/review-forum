@@ -16,4 +16,7 @@ export default class ReviewRepository {
         return reviewRepository.delete(id);
     }
 
+    static remove(reviews: Review[]): Promise<Review[]> {
+        return reviewRepository.remove(reviews);
+    }
 }

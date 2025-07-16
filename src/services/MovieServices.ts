@@ -92,17 +92,13 @@ export default class MovieServices {
             throw new Error(`Filme com ID ${movieId} não encontrado.`);
         }
 
-        // Passo 3: Se o filme tiver reviews, itera sobre elas e deleta cada uma.
-        // Usar um loop for...of com await é mais seguro do que Promise.all para
-        // garantir que cada operação termine antes da próxima.
+        // Passo 3: Se o filme tiver reviews, remove-as primeiro.
         if (movieToDelete.reviews && movieToDelete.reviews.length > 0) {
-            for (const review of movieToDelete.reviews) {
-                await ReviewRepository.deleteById(review.id);
-            }
+            await ReviewRepository.remove(movieToDelete.reviews);
         }
 
-        // Passo 4: Após as reviews serem removidas, remove o filme.
-        await MovieRepository.remove(movieToDelete);
+        // Passo 4: Após as reviews serem removidas, deleta o filme usando seu ID.
+        await MovieRepository.deleteById(movieToDelete.id);
     }
 }
 
