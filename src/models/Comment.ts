@@ -11,7 +11,7 @@ export default class Comment {
     content: string;
 
     @Column({ nullable: false })
-    usernameAuthor: string;
+    username: string;
 
     @ManyToOne(() => Forum, (forum) => forum.id, {nullable: false})
     forum: number;
@@ -28,9 +28,9 @@ export default class Comment {
     @ManyToOne(() => Comment, (comment) => comment.id, {nullable: true})
     replyToCommentId?: number;
 
-    constructor(content: string, usernameAuthor: string, forumId: number, isEdited: boolean, replyToCommentId?: number) {
+    constructor(content: string, username: string, forumId: number, isEdited: boolean, replyToCommentId?: number) {
         this.content = content;
-        this.usernameAuthor = usernameAuthor;
+        this.username = username;
         this.forum = forumId;
         this.isEdited = isEdited;
         this.replyToCommentId = replyToCommentId;

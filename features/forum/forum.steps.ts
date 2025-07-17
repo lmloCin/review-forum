@@ -4,15 +4,8 @@ import MovieServices from 'src/services/MovieServices';
 import ForumRepository from 'src/repository/ForumRepository';
 import { Forum } from 'src/models/Forum';
 import { Movie } from 'src/models/Movie';
-import { mock } from 'node:test';
 
 const feature = loadFeature('features/forum/forum.feature');
-
-// Mock dos serviços
-
-// jest.mock('src/services/ForumService');
-// jest.mock('src/services/MovieServices');
-// jest.mock('src/repository/ForumRepository');
 
 const MockedForumService = ForumService as jest.MockedClass<typeof ForumService>;
 const MockedMovieServices = MovieServices as jest.MockedClass<typeof MovieServices>;
@@ -191,6 +184,38 @@ defineFeature(feature, test => {
 
     then('shold raise a error saying that "O Filme com o ID 3 não existe"', () => {
       expect(context.error.message).toBe("O Filme com o ID 3 não existe");
+    });
+  });
+
+
+  test('Fail to create a Forum without movie', ({ given, when, then }) => {
+    const context: any = {};
+
+    given('i\'m logged as user with username "johndoe"', () => {
+      context.username = 'johndoe';
+    });
+
+    when('this user tries to create e Forum with Title "Lorem ipsum lorem ipsum", Description "What ever"', async () => {
+      const forumData = {
+        title: 'Lorem ipsum lorem ipsum',
+        description: 'What ever',
+        username: context.username
+      };
+
+      try {
+        await ForumService.saveForum(forumData);
+      } catch (error) {
+        context.error = error;
+      }
+    });
+
+    then('the Forum must no be created', () => {
+      expect(context.error).toBeDefined();
+      expect(MockedForumRepository.saveForum).not.toHaveBeenCalled();
+    });
+
+    then('shold raise a error saying that "O filme é um campo obrigatório"', () => {
+      expect(context.error.message).toBe("O filme é um campo obrigatório");
     });
   });
 });

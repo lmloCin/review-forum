@@ -15,21 +15,21 @@ export default class CommentService {
 
     static async validate(comment) {
         if (!comment.content) {
-            throw new Error('Conteúdo é obrigatório')
+            throw new Error('O conteúdo é um campo obrigatório')
         }
 
-        if (!comment.usernameAuthor) {
-            throw new Error('Nome de usuário do autor é obrigatório')
+        if (!comment.username) {
+            throw new Error('O usuário é um campo obrigatório')
         }
 
         if (!comment.forum) {
             throw new Error('Fórum é obrigatório')
         }
         
-        let forum = await ForumService.getById(comment.forumId)
+        let forum = await ForumService.getById(comment.forum)
 
         if (!forum) {
-            throw new Error('Fórum não encontrado')
+            throw new Error('Fórum inválido')
         }
 
         if (comment.replyToCommentId) {

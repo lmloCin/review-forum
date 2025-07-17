@@ -27,15 +27,12 @@ export default class ForumService {
 
         existingForum.title = forum.title;
         existingForum.description = forum.description || '';
+
+        this.validate(existingForum);
         return ForumRepository.saveForum(existingForum);
     }
-    
-    static async saveForum(forum: any): Promise<any> {
-        const relatedMovie= await MovieServices.getById(forum.movieId)
-        
-        if (!relatedMovie) {
-            throw Error(`O Filme com o ID ${forum.movieId} não existe`)
-        }
+
+    static validate(forum: any) {
 
         if (!forum.title) {
             throw new Error('O título do forum é obrigatório')
@@ -43,6 +40,21 @@ export default class ForumService {
 
         if (!forum.username || forum.username == '') {
             throw new Error('O usuário é um campo obrigatório')
+        }
+
+        if (!forum.movieId) {
+            throw new Error('O filme é um campo obrigatório')
+        }
+    }
+    
+    static async saveForum(forum: any): Promise<any> {
+
+        this.validate(forum)
+
+        const relatedMovie= await MovieServices.getById(forum.movieId)
+        
+        if (!relatedMovie) {
+            throw Error(`O Filme com o ID ${forum.movieId} não existe`)
         }
 
         return ForumRepository.saveForum(new Forum(forum.title, forum.description, forum.username, relatedMovie))

@@ -27,3 +27,10 @@ Scenario: Fail to create a Forum with non existing movie
   When this user tries to create e Forum with Title "Lorem ipsum lorem ipsum", Description "What ever" and Related Movie "3"
   Then the Forum must no be created
   And shold raise a error saying that "O Filme com o ID 3 não existe"
+
+
+Scenario: Fail to create a Forum without movie
+  Given i'm logged as user with username "johndoe"
+  When this user tries to create e Forum with Title "Lorem ipsum lorem ipsum", Description "What ever"
+  Then the Forum must no be created
+  And shold raise a error saying that "O filme é um campo obrigatório"
