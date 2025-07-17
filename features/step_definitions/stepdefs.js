@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const API_BASE_URL = 'http://localhost:8080';
 
-// --- Passos do Cenário 5 ---
+// --- Passos do Cenário 1 ---
 Given('o filme {string} existe no sistema com gênero {string} e ano {string}', async function (name, genre, year) {
   const response = await axios.post(`${API_BASE_URL}/api/movies`, {
     name: name,
@@ -34,7 +34,7 @@ Then('o ano {string} do filme {string} deve continuar o mesmo', async function (
   assert.strictEqual(response.data.year, parseInt(expectedYear));
 });
 
-// --- Passos do Cenário 6 ---
+// --- Passos do Cenário 2 ---
 Given('o filme com id {string} e nome {string} existe no sistema', async function (id, name) {
   const response = await axios.post(`${API_BASE_URL}/api/movies`, {
     name: name,
@@ -95,7 +95,7 @@ Then('a lista de reviews no JSON da resposta deve conter {int} itens', function 
   assert.strictEqual(this.response.data.reviews.length, expectedCount);
 });
 
-// --- Passos do Cenário 7 ---
+// --- Passos do Cenário 3 ---
 Given('o filme {string} não existe no sistema', async function (movieName) {
 });
 
@@ -122,7 +122,7 @@ Then('o JSON da resposta deve conter os dados do filme criado, incluindo seu nov
   assert.ok(this.response.data.movie.id, "O ID do filme não foi retornado");
 });
 
-// --- Passos do Cenário 8 ---
+// --- Passos do Cenário 4 ---
 Given('o filme com id {string} e nome {string} existe no sistema com o gênero {string}', async function (id, name, genre) {
   const response = await axios.post(`${API_BASE_URL}/api/movies`, {
     name: name,
@@ -148,7 +148,7 @@ Then('o JSON da resposta deve conter os dados do filme atualizado com o gênero 
   assert.strictEqual(this.response.data.movie.genre, expectedGenre);
 });
 
-// --- Passos do Cenário 9 ---
+// --- Passos do Cenário 5 ---
 Given('suas informações de disponibilidade incluem {string} para streaming e {string} para aluguel', async function (streamingPlatform, rentPlatform) {
   const response = await axios.post(`${API_BASE_URL}/api/movies`, {
     name: "Interestelar",
@@ -172,7 +172,7 @@ Then('o campo {string} deve conter {string} na lista de {string}', function (fie
   assert.ok(this.response.data[field][list].includes(value));
 });
 
-// --- Passos do Cenário 10 ---
+// --- Passos do Cenário 6 ---
 Given('um filme com id {string} existe no sistema', async function (id) {
   const response = await axios.post(`${API_BASE_URL}/api/movies`, {
     name: "Filme a ser deletado",
@@ -202,7 +202,7 @@ Then('nenhuma review associada ao filme com id {string} deve existir no sistema'
   return 'pending';
 });
 
-// --- Passos do Cenário 14 ---
+
 When('uma requisição {string} for enviada para {string} com o corpo contendo o texto {string}, a nota {int} e o movieId {int}', async function (method, path, text, rating, movieId) {
   const response = await axios({
     method: method.toLowerCase(),
@@ -216,7 +216,7 @@ Then('o JSON da resposta deve conter a review criada com o texto {string}', func
   assert.strictEqual(this.response.data.text, expectedText);
 });
 
-// --- Passos do Cenário 15 ---
+// --- Passos do Cenário 8 ---
 Given('uma review com id {string} para o filme com id {string} existe no sistema', async function (reviewId, movieId) {
   const movieResponse = await axios.post(`${API_BASE_URL}/api/movies`, { name: "Filme com Review", description: "...", year: 2025, director: "D", genre: "G" });
   const reviewResponse = await axios.post(`${API_BASE_URL}/api/reviews`, { text: "Review a ser deletada", rating: 4, movieId: movieResponse.data.movie.id });
@@ -232,7 +232,7 @@ Then('a review com id {string} não deve mais existir no sistema', async functio
   }
 });
 
-// --- Passos do Cenário 16 ---
+// --- Passos do Cenário 8 ---
 Given('uma review com id {string} existe no sistema com o texto {string}', async function (id, text) {
   const movieResponse = await axios.post(`${API_BASE_URL}/api/movies`, { name: "Filme com Review Editável", description: "...", year: 2025, director: "D", genre: "G" });
   const reviewResponse = await axios.post(`${API_BASE_URL}/api/reviews`, { text: text, rating: 3, movieId: movieResponse.data.movie.id });
@@ -257,7 +257,7 @@ Then('o JSON da resposta deve indicar que a review foi editada', function () {
   assert.strictEqual(this.response.data.isEdited, true);
 });
 
-// --- Passos do Cenário 17 ---
+// --- Passos do Cenário 9 
 Given('uma review com id {string} não existe no sistema', function (id) {
   this.nonExistentReviewId = id;
 });
