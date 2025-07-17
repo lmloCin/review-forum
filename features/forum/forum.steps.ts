@@ -1,16 +1,17 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
-import ForumService from '../../src/services/ForumService';
-import MovieServices from '../../src/services/MovieServices';
-import ForumRepository from '../../src/repository/ForumRepository';
-import { Forum } from '../../src/models/Forum';
-import { Movie } from '../../src/models/Movie';
+import ForumService from 'src/services/ForumService';
+import MovieServices from 'src/services/MovieServices';
+import ForumRepository from 'src/repository/ForumRepository';
+import { Forum } from 'src/models/Forum';
+import { Movie } from 'src/models/Movie';
 
-const feature = loadFeature('./features/forum.feature');
+const feature = loadFeature('features/forum/forum.feature');
 
 // Mock dos serviços
-jest.mock('../src/services/ForumService');
-jest.mock('../src/services/MovieServices');
-jest.mock('../src/repository/ForumRepository');
+
+// jest.mock('src/services/ForumService');
+// jest.mock('src/services/MovieServices');
+// jest.mock('src/repository/ForumRepository');
 
 const MockedForumService = ForumService as jest.MockedClass<typeof ForumService>;
 const MockedMovieServices = MovieServices as jest.MockedClass<typeof MovieServices>;
