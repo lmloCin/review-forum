@@ -4,6 +4,7 @@ import MovieServices from 'src/services/MovieServices';
 import ForumRepository from 'src/repository/ForumRepository';
 import { Forum } from 'src/models/Forum';
 import { Movie } from 'src/models/Movie';
+import { mock } from 'node:test';
 
 const feature = loadFeature('features/forum/forum.feature');
 
@@ -35,7 +36,7 @@ defineFeature(feature, test => {
 
     given('the Movie "Sonic 3" exists with ID "3"', () => {
       const mockMovie = new Movie('Sonic 3', 'Description of Sonic 3');
-      Object.defineProperty(mockMovie, 'id', { value: 3 });
+      mockMovie.id = 3;
       
       jest.spyOn(MovieServices, 'getById').mockResolvedValue(mockMovie);
       context.mockMovie = mockMovie;
@@ -45,7 +46,7 @@ defineFeature(feature, test => {
       const forumData = {
         title: 'O que vocês acharam do Sonic 3?',
         description: 'I think went well, but should\'ve done better this time',
-        movieId: 3,
+        movieId: context.mockMovie.id,
         username: context.username
       };
 
@@ -86,15 +87,16 @@ defineFeature(feature, test => {
 
     given('the Movie "Sonic 3" exists', () => {
       const mockMovie = new Movie('Sonic 3', 'Description of Sonic 3');
-      Object.defineProperty(mockMovie, 'id', { value: 3 });
-      
+      mockMovie.id = 3;
       jest.spyOn(MockedMovieServices, 'getById').mockResolvedValue(mockMovie);
     });
 
     when('the user create a Forum with no Title, Related Movie "3"', async () => {
+
+      let relatedMovie = await MockedMovieServices.getById(3);
       const forumData = {
         title: '',
-        movieId: 3,
+        movieId: relatedMovie?.id,
         username: context.username
       };
 
@@ -115,7 +117,7 @@ defineFeature(feature, test => {
     });
   });
 
-  test('Fail to create a forum', ({ given, when, then }) => {
+  test('Fail to create a forum without username', ({ given, when, then }) => {
     const context: any = {};
 
     given('i\'m logged as user with username "johndoe"', () => {
@@ -130,10 +132,12 @@ defineFeature(feature, test => {
     });
 
     when('try to create a Forum with Title "O que vocês acharam do Sonic 3?", Description "I think went well, but should\'ve done better this time", Related Movie "3" And username ""', async () => {
+      
+      let movie = await MockedMovieServices.getById(3)
       const forumData = {
         title: 'O que vocês acharam do Sonic 3?',
         description: 'I think went well, but should\'ve done better this time',
-        movieId: 3,
+        movieId: movie?.id,
         username: ''
       };
 
@@ -185,8 +189,8 @@ defineFeature(feature, test => {
       expect(MockedForumRepository.saveForum).not.toHaveBeenCalled();
     });
 
-    then('shold raise a error saying that "O Movie com o ID 3 não existe"', () => {
-      expect(context.error.message).toBe('Filme relacionado não encontrado');
+    then('shold raise a error saying that "O Filme com o ID 3 não existe"', () => {
+      expect(context.error.message).toBe("O Filme com o ID 3 não existe");
     });
   });
 });

@@ -34,11 +34,15 @@ export default class ForumService {
         const relatedMovie= await MovieServices.getById(forum.movieId)
         
         if (!relatedMovie) {
-            throw Error('Filme relacionado não encontrado')
+            throw Error(`O Filme com o ID ${forum.movieId} não existe`)
         }
 
         if (!forum.title) {
-            throw new Error('O títutlo do forum é requerido')
+            throw new Error('O título do forum é obrigatório')
+        }
+
+        if (!forum.username || forum.username == '') {
+            throw new Error('O usuário é um campo obrigatório')
         }
 
         return ForumRepository.saveForum(new Forum(forum.title, forum.description, forum.username, relatedMovie))

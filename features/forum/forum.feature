@@ -14,7 +14,7 @@ Scenario: Fail to create a forum without a title
   Then the forum should not be created
   And shold raise a error saying that "O título do forum é obrigatório"
 
-Scenario: Fail to create a forum
+Scenario: Fail to create a forum without username
   Given i'm logged as user with username "johndoe"
   And the Movie with title "Sonic 3" is saved with id "3"
   When try to create a Forum with Title "O que vocês acharam do Sonic 3?", Description "I think went well, but should've done better this time", Related Movie "3" And username ""
@@ -26,4 +26,4 @@ Scenario: Fail to create a Forum with non existing movie
   And the Movie with ID 3 does not exist
   When this user tries to create e Forum with Title "Lorem ipsum lorem ipsum", Description "What ever" and Related Movie "3"
   Then the Forum must no be created
-  And shold raise a error saying that "O Movie com o ID 3 não existe"
+  And shold raise a error saying that "O Filme com o ID 3 não existe"
