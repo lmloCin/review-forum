@@ -1,9 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, UpdateDateColumn } from 'typeorm';
 import { Movie } from './Movie';
-/**
- * src/models/Review.ts (Novo arquivo de entidade)
- * Define a entidade Review e sua relação com Movie.
- */
+
+
 @Entity()
 export class Review {
     @PrimaryGeneratedColumn()

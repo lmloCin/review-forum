@@ -84,20 +84,15 @@ export default class MovieServices {
     }
 
         static async delete(movieId: number): Promise<void> {
-        // Passo 1: Busca a entidade completa do filme, INCLUINDO as reviews.
-        const movieToDelete = await MovieRepository.findByIdWithReviews(movieId);
+
+            const movieToDelete = await MovieRepository.findByIdWithReviews(movieId);
         
-        // Passo 2: Verifica se o filme existe.
         if (!movieToDelete) {
             throw new Error(`Filme com ID ${movieId} não encontrado.`);
         }
-
-        // Passo 3: Se o filme tiver reviews, remove-as primeiro.
         if (movieToDelete.reviews && movieToDelete.reviews.length > 0) {
             await ReviewRepository.remove(movieToDelete.reviews);
         }
-
-        // Passo 4: Após as reviews serem removidas, deleta o filme usando seu ID.
         await MovieRepository.deleteById(movieToDelete.id);
     }
 }
