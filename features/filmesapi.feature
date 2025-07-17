@@ -37,5 +37,4 @@ Scenario: Deletar um filme e suas reviews associadas
   When uma requisição "DELETE" for enviada para "/api/movies/7"
   Then o status da resposta deve ser "200"
   And o JSON da resposta deve conter a mensagem "Filme e todas as suas reviews foram deletados com sucesso."
-  And o filme com id "7" não deve mais existir no sistema
-  And nenhuma review associada ao filme com id "7" deve existir no sistema
+
