@@ -15,7 +15,7 @@ const forumRouter = Router()
  *         description: List all forums
  */
 forumRouter.get('/', async (request: Request, response: Response) => {
-    let result = await ForumService.getInstance().getAll()
+    let result = await ForumService.getAll()
 
     response.send(result)
 })
@@ -41,7 +41,7 @@ forumRouter.get('/', async (request: Request, response: Response) => {
  */
 forumRouter.get('/:id', async (request: Request, response: Response) => {
     let id = parseInt(request.params.id)
-    let result = await ForumService.getInstance().getById(id)
+    let result = await ForumService.getById(id)
     if (result) {
         response.send(result)
     } else {
@@ -70,7 +70,7 @@ forumRouter.get('/:id', async (request: Request, response: Response) => {
  */
 forumRouter.get('/search-by-title/:title', async (request: Request, response: Response) => {
     let title = request.params.title
-    let result = await ForumService.getInstance().searchByTitle(title)
+    let result = await ForumService.searchByTitle(title)
     if (result) {
         response.send(result)
     } else {
@@ -99,7 +99,7 @@ forumRouter.get('/search-by-title/:title', async (request: Request, response: Re
  */
 forumRouter.get('/search-by-creator-user/:username', async (request: Request, response: Response) => {
     let username = request.params.username
-    let result = await ForumService.getInstance().searchByCreatorUser(username)
+    let result = await ForumService.searchByCreatorUser(username)
     if (result) {
         response.send(result)
     } else {
@@ -135,7 +135,7 @@ forumRouter.get('/search-by-creator-user/:username', async (request: Request, re
  */
 forumRouter.post('/', async (request: Request, response: Response) => {
     let forumDTO = request.body
-    let result = ForumService.getInstance().saveForum(forumDTO).then((result) => {
+    let result = ForumService.saveForum(forumDTO).then((result) => {
         response.send(result).status(201)
     }).catch((e) => {
         response.send({'fail': e.message}).status(400)
@@ -177,7 +177,7 @@ forumRouter.post('/', async (request: Request, response: Response) => {
 forumRouter.put('/:id', async (request: Request, response: Response) => {
     let id = parseInt(request.params.id)
     let forumDTO = request.body
-    let result = await ForumService.getInstance().updateForum({ ...forumDTO, id })
+    let result = await ForumService.updateForum({ ...forumDTO, id })
     if (result) {
         response.send(result)
     } else {

@@ -26,7 +26,7 @@ export default class CommentService {
             throw new Error('Fórum é obrigatório')
         }
         
-        let forum = await ForumService.getInstance().getById(comment.forumId)
+        let forum = await ForumService.getById(comment.forumId)
 
         if (!forum) {
             throw new Error('Fórum não encontrado')
