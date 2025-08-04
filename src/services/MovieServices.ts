@@ -10,6 +10,9 @@ export default class MovieServices {
         return MovieRepository.getAll()
     }
 
+    static async trending() {
+        return MovieRepository.trending();
+    }
 
     static async searchByTags(tags: string[]) {
         return MovieRepository.searchByTags(tags);

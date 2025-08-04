@@ -299,6 +299,21 @@ MovieRouter.get('/search', async(request: Request, response: Response) => {
     response.send(result);
 })
 
+/**
+ * @swagger
+ * /api/movies/trending:
+ *   get:
+ *     summary: Get the top 10 movies by reviews_today
+ *     responses:
+ *       200:
+ *         description: List of movies
+ */
+//api/movies/trending/
+MovieRouter.get('/trending', async (req: Request,res: Response)=>{
+    const movies = await MovieServices.trending();
+    res.status(200).json(movies);
+
+})
 
 /**
  * @swagger

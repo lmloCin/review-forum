@@ -1,10 +1,26 @@
 import { AppDataSource } from "../infra/setup_db";
 import { Movie } from "../models/Movie";
-const movieRepository = AppDataSource.getRepository(Movie)
+import { Between } from 'typeorm';
+import {MovieReviewStats} from "../models/MovieReviewStats";
 
+const movieRepository = AppDataSource.getRepository(Movie)
 
 export default class MovieRepository {
 
+
+    static  async trending():Promise<Movie[]>{
+        return AppDataSource
+            .getRepository(Movie)
+            .createQueryBuilder("movie")
+            .innerJoin(
+                MovieReviewStats,
+                "stats",
+                "stats.id = movie.id"
+            )
+            .orderBy("stats.reviews_today", "DESC")
+            .limit(10)
+            .getMany();
+    }
 
     static async searchByTags(tags: string[]): Promise<Movie[]> {
         return AppDataSource
