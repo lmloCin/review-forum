@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, UpdateDateColumn } from 'typeorm';
+import { JoinColumn,Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, UpdateDateColumn } from 'typeorm';
 import { Movie } from './Movie';
 
 
@@ -20,6 +20,7 @@ export class Review {
     isEdited!: boolean;
 
     @ManyToOne(() => Movie, movie => movie.reviews)
+    @JoinColumn({ name: 'movie_id' })
     movie!: Movie;
     
     @CreateDateColumn()

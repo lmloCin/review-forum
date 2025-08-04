@@ -4,6 +4,7 @@ import { Movie } from "../models/Movie";
 import { Forum } from "../models/Forum";
 import Comment from "../models/Comment";
 import { Review } from "../models/Review";
+import {MovieReviewStats} from "../models/MovieReviewStats";
 
 
 export const AppDataSource = new DataSource({
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
   database: "review_forum",
   synchronize: true,       // auto-creates tables in dev :contentReference[oaicite:2]{index=2}
   dropSchema:true,
-  entities: [Movie, Review, Forum, Comment],
+  entities: [Movie, Review, Forum, Comment,MovieReviewStats],
 });
 
 

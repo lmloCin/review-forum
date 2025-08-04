@@ -29,6 +29,7 @@ export default class MovieRepository {
                 "stats",
                 "stats.id = movie.id"
             )
+            .addSelect("stats.reviews_today","reviews_today")
             .orderBy("stats.reviews_today", "DESC")
             .limit(10)
             .getMany();
