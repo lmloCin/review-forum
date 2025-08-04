@@ -10,6 +10,19 @@ export default class MovieServices {
         return MovieRepository.getAll()
     }
 
+    static async trending() {
+        return MovieRepository.trending();
+    }
+
+    static async searchByTags(tags: string[]) {
+        return MovieRepository.searchByTags(tags);
+    }
+
+    static async getByRating(min: number, max: number) {
+        return MovieRepository.getByRating(min, max);
+    }
+
+
     static async add(movieDTO: any) {
         this.validate(movieDTO) 
         const movieToAdd = new Movie(
@@ -17,7 +30,7 @@ export default class MovieServices {
             movieDTO.description,
             movieDTO.year,
             movieDTO.director,
-            movieDTO.genre,
+            movieDTO.tags,
             movieDTO.availability 
         );
         return MovieRepository.saveMovie(movieToAdd)
