@@ -30,7 +30,7 @@ export default class MovieServices {
             movieDTO.description,
             movieDTO.year,
             movieDTO.director,
-            movieDTO.genre,
+            movieDTO.tags,
             movieDTO.availability 
         );
         return MovieRepository.saveMovie(movieToAdd)
