@@ -11,66 +11,6 @@ const MovieRouter = Router();
  *     responses:
  *       200:
  *         description: List of movies
-<<<<<<< HEAD
- */
-MovieRouter.get('/', async (request, response) => {
-    const results = await MovieServices.getAll()
-    response.send(results)
-})
-
-/**
- * @swagger
- * /api/movies/get-by-id/{id}:
- *   get:
- *     summary: Get all movies
- *     tags: [movies]
- *     parameters:
- *      - name: id
- *        in: path
- *        description: Movie ID
- *        required: true
- *     responses:
- *       200:
- *         description: Desired movie
- *       404:
- *          description: No movie was founded with that ID
- */
-MovieRouter.get('/get-by-id/:id', async (request: Request, response: Response) => {
-    const id = request.params['id']
-    const result = await MovieServices.getById(Number(id))
-    response.send(JSON.stringify(result))
-})
-
-/**
- * @swagger
- * /api/movies/search/:
- *   get:
- *     summary: Get all movies
- *     tags: [movies]
- *     parameters:
- *      - name: name
- *        in: query
- *        type: string
- *        description: Search movies from their title
-*        required: false
- *     responses:
- *       200:
- *         description: List of movies with likely titles
- *       404:
- *          description: No movie was founded with that title
- */
-MovieRouter.get('/search', async(request: Request, response: Response) => {
-    let params = request.query
-    let result = await MovieServices.searchByName(params.name)
-    response.send(result)
-})
-
-
-/**
- * @swagger
- * /api/movies/:
-=======
->>>>>>> 3b1a6a509474ed5d5b600f87fbccff55e6c43a5d
  *   post:
  *     summary: Create a movie
  *     tags: [movies]
@@ -89,16 +29,11 @@ MovieRouter.get('/search', async(request: Request, response: Response) => {
  *       200:
  *         description: Movie created
  */
-<<<<<<< HEAD
-MovieRouter.post('/', async (request, response) => {
-    const movieDTO = request.body
-    const persistedMovie = await MovieServices.add(movieDTO)
-    response.send(persistedMovie)
-=======
+
 MovieRouter.get('/', async (request, response) => {
     const results = await MovieServices.getAll()
     response.send(results)
->>>>>>> 3b1a6a509474ed5d5b600f87fbccff55e6c43a5d
+
 })
 
 /**
