@@ -299,4 +299,53 @@ MovieRouter.get('/search', async(request: Request, response: Response) => {
     response.send(result);
 })
 
+
+/**
+ * @swagger
+ * /api/movies/search-by-tags:
+ *   get:
+ *     summary: Search movies by exact tag match
+ *     description: Returns movies that contain all the specified tags.
+ *     parameters:
+ *       - in: query
+ *         name: tags
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: List of movies matching the given tags
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '##/models/Movie'
+ *       400:
+ *         description: Missing or invalid tags parameter
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Missing or invalid tags parameter
+ */
+
+
+//api/movies/search-by-tags?tags=
+MovieRouter.get('/search-by-tags', async (req: Request, res: Response) => {
+    const tagsParam = req.query.tags;
+    if (!tagsParam || typeof tagsParam !== 'string') {
+        return res.status(400).json({ error: 'Missing or invalid tags parameter' });
+    }
+    const tags = tagsParam.split(',').map(n=> n.toLowerCase());
+    const movies = await MovieServices.searchByTags(tags);
+    res.status(200).json(movies);
+});
+
+
+
+
 export default MovieRouter;

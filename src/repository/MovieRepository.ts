@@ -5,6 +5,16 @@ const movieRepository = AppDataSource.getRepository(Movie)
 
 export default class MovieRepository {
 
+
+    static async searchByTags(tags: string[]): Promise<Movie[]> {
+        return AppDataSource
+            .getRepository(Movie)
+            .createQueryBuilder('movie')
+            .where('movie.tags @> :tags', { tags })
+            .getMany();
+    };
+
+
     static getAll() : Promise<Movie[]> {
         return movieRepository.find()
     }

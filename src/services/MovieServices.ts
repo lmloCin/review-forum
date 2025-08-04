@@ -10,6 +10,12 @@ export default class MovieServices {
         return MovieRepository.getAll()
     }
 
+
+    static async searchByTags(tags: string[]) {
+        return MovieRepository.searchByTags(tags);
+    }
+
+
     static async add(movieDTO: any) {
         this.validate(movieDTO) 
         const movieToAdd = new Movie(
