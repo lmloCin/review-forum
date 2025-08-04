@@ -292,7 +292,7 @@ Given('the Film {string} exists with tags {string}', async function (name, tags)
 When('i search by tags {string}', async function (tags) {
   const tagParam = encodeURIComponent(tags);
   this.searchResponse = await axios.get(`${API_BASE_URL}/api/movies/search-by-tags?tags=${tagParam}`);
-  console.log(this.searchResponse);
+  //console.log(this.searchResponse);
 });
 
 Then('i can see {int} movies', function (count) {
