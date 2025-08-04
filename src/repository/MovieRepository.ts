@@ -7,6 +7,18 @@ const movieRepository = AppDataSource.getRepository(Movie)
 
 export default class MovieRepository {
 
+    static getByRating(min: number, max: number): Promise<Movie[]> {
+        return AppDataSource
+            .getRepository(Movie)
+            .createQueryBuilder("movie")
+            .innerJoin(
+                MovieReviewStats,
+                "stats",
+                "stats.id = movie.id"
+            )
+            .where("stats.average_rating BETWEEN :min AND :max", { min, max })
+            .getMany();
+    }
 
     static  async trending():Promise<Movie[]>{
         return AppDataSource

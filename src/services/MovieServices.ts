@@ -18,6 +18,10 @@ export default class MovieServices {
         return MovieRepository.searchByTags(tags);
     }
 
+    static async getByRating(min: number, max: number) {
+        return MovieRepository.getByRating(min, max);
+    }
+
 
     static async add(movieDTO: any) {
         this.validate(movieDTO) 

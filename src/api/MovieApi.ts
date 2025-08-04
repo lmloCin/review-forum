@@ -360,6 +360,59 @@ MovieRouter.get('/search-by-tags', async (req: Request, res: Response) => {
     res.status(200).json(movies);
 });
 
+/**
+ * @swagger
+ * /api/movies/by-rating:
+ *   get:
+ *     summary: Get movies filtered by rating range
+ *     description: Returns all movies with rating between min and max. If no params are provided, returns all movies.
+ *     parameters:
+ *       - in: query
+ *         name: min
+ *         schema:
+ *           type: number
+ *         required: false
+ *       - in: query
+ *         name: max
+ *         schema:
+ *           type: number
+ *         required: false
+ *     responses:
+ *       200:
+ *         description: List of movies filtered by rating
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '##/models/Movie'
+ */
+//api/movies/by-rating?min=&max=
+
+MovieRouter.get('/by-rating', async (req: Request, res: Response) => {
+    const min = parseFloat(req.query.min as string);
+    const max = parseFloat(req.query.max as string);
+
+    if (isNaN(min) && isNaN(max)) {
+        const movies = await MovieServices.getAll();
+        res.status(200).json(movies);
+    }
+
+    if (isNaN(min)) {
+        const movies = await MovieServices.getByRating(0, max);
+        res.status(200).json(movies);
+    }
+    if (isNaN(max)){
+        const movies = await MovieServices.getByRating(min, 5);
+        res.status(200).json(movies);
+    }
+
+    // 400:
+    //         description: Invalid parameters
+    //return res.status(400).json({ error: 'Invalid or missing min/max values' });
+    const movies = await MovieServices.getByRating(min, max);
+    res.status(200).json(movies);
+});
 
 
 
