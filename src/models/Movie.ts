@@ -18,8 +18,8 @@ export class Movie {
     @Column({ nullable: true })
     director!: string;
 
-    @Column({ nullable: true })
-    genre!: string;
+    @Column("text", { array: true, nullable: true })
+    tags?: string[];
     
     @Column({ type: 'simple-json', nullable: true })
     availability?: {
@@ -31,6 +31,8 @@ export class Movie {
     @CreateDateColumn()
     created_at!: Date;
 
+    @Column({nullable: true})
+    rating?: number
 
     @OneToMany(() => Review, review => review.movie, {
         cascade: true,
@@ -38,12 +40,12 @@ export class Movie {
     })
     reviews!: Review[];
 
-    constructor(name: string, description: string, year: number, director: string, genre: string, availability?: any) {
+    constructor(name: string, description: string, year: number, director: string, tags: string[], availability?: any) {
         this.name = name;
         this.description = description;
         this.year = year;
         this.director = director;
-        this.genre = genre;
+        this.tags = tags?.map(n=>n.toLowerCase());
         this.availability = availability;
     }
 }
