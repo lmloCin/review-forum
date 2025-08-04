@@ -58,9 +58,10 @@ MovieRouter.get('/', async (request, response) => {
  *               director:
  *                 type: string
  *                 example: "George Miller"
- *               genre:
- *                 type: string
- *                 example: "Ação"
+ *               tags:
+ *                 type: array
+ *                 items:
+ *                     type: string
  *     responses:
  *       201:
  *         description: Movie created successfully
