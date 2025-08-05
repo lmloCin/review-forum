@@ -27,3 +27,28 @@ Scenario: Tentar editar uma review que não existe (Caso de Erro)
   And o JSON da resposta deve conter a mensagem "Review com ID 999 não encontrada."
 
 
+Scenario: Add a new review to a movie
+  Given a user is on the details page for the movie "Portrait of a Lady on Fire"
+  When they write a review with the text "Beautiful photography and a touching story." and a rating of 5
+  And they submit the new review
+  Then their review with the text "Beautiful photography and a touching story." should be visible on the page
+
+Scenario: Delete an existing review
+  Given a user has posted a review on the "The Matrix" movie page
+  When they decide to delete their review
+  And they confirm the action
+  Then they should see the message "Review deletada com sucesso."
+  And their review should no longer be visible on the page
+
+Scenario: Edit the text of an existing review
+  Given a user has posted a review with the text "A good movie."
+  When they choose to edit their review
+  And they change the text to "An amazing movie, actually."
+  And they save the changes
+  Then the updated text "An amazing movie, actually." should be visible in their review
+  And the review should be marked as "edited"
+
+Scenario: Attempt to edit a non-existent review
+  Given a user attempts to perform an edit action on a review that has already been deleted
+  When they submit the changes for review
+  Then they should see an error message indicating "Review not found."
