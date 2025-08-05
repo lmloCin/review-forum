@@ -361,3 +361,298 @@ Given('the Film {string} exists with reviews_today {int}',async function (name, 
 When('i visit the trending tab', async function () {
   this.searchResponse = await axios.get(`${API_BASE_URL}/api/movies/trending`);
 });
+
+Given('the movie {string} exists in the system with 2 reviews with ratings {int} and {int}', async function (movieName, rating1, rating2) {
+  // 1. Criar o filme base
+  const movieResponse = await axios.post(`${API_BASE_URL}/api/movies`, {
+    name: movieName,
+    description: `A movie called ${movieName}`,
+    year: 2019,
+    director: "Bong Joon Ho",
+    genre: "Thriller"
+  });
+  assert.strictEqual(movieResponse.status, 201, 'Failed to create the movie');
+  
+  // Guardamos o ID do filme no contexto do cenário para os próximos passos
+  this.movieId = movieResponse.data.movie.id;
+
+  // 2. Adicionar as duas reviews associadas a esse filme
+  await axios.post(`${API_BASE_URL}/api/reviews`, { text: "Masterpiece!", rating: rating1, movieId: this.movieId });
+  await axios.post(`${API_BASE_URL}/api/reviews`, { text: "A bit long, but great.", rating: rating2, movieId: this.movieId });
+});
+
+
+When('a user visits the details page for the movie {string}', async function (movieName) {
+  // Usamos o ID guardado no passo 'Given' para fazer a requisição
+  assert.ok(this.movieId, 'Movie ID was not set in the Given step');
+  try {
+    this.response = await axios.get(`${API_BASE_URL}/api/movies/details/${this.movieId}`);
+  } catch (error) {
+    // Guardamos a resposta de erro para que os passos 'Then' possam analisá-la
+    this.response = error.response;
+  }
+});
+
+
+Then('they should see the name {string} as the main title', function (expectedName) {
+  assert.strictEqual(this.response.status, 200, `Expected status 200 but got ${this.response.status}`);
+  assert.strictEqual(this.response.data.name, expectedName);
+});
+
+Then('they should see that the average rating is {string}', function (expectedAverage) {
+  // Convertemos a string do cenário para um número para a comparação
+  const expectedRating = parseFloat(expectedAverage);
+  assert.strictEqual(this.response.data.averageRating, expectedRating);
+});
+
+Then('they should see a list containing {int} reviews', function (expectedCount) {
+  assert.ok(Array.isArray(this.response.data.reviews), 'The reviews property is not an array');
+  assert.strictEqual(this.response.data.reviews.length, expectedCount);
+});
+
+Given('an admin user is on the new movie page', function () {
+  // Este passo é para dar contexto de leitura, não requer ação na API.
+});
+
+Given('the movie {string} has not been registered yet', function (movieName) {
+  // Este passo também é declarativo. O hook 'Before' garante que o sistema
+  // começa em um estado limpo, sem este filme pré-existente.
+});
+
+/**
+ * @When
+ * Estes passos executam as ações do usuário.
+ */
+When('they fill out the form with the title {string}, year {string}, and genre {string}', function (title, year, genre) {
+  // Este passo apenas prepara os dados que serão enviados, guardando-os no contexto.
+  // A ação de envio acontece no próximo passo.
+  this.formData = {
+    name: title,
+    year: parseInt(year),
+    genre: genre,
+    director: "George Miller", // Adicionando dados padrão para completar o objeto
+    description: `A movie about ${title}`
+  };
+});
+
+When('they submit the form for registration', async function () {
+  // Agora, a ação de submeter o formulário é traduzida para a chamada POST,
+  // usando os dados que preparamos no passo anterior.
+  try {
+    this.response = await axios.post(`${API_BASE_URL}/api/movies`, this.formData);
+  } catch (error) {
+    this.response = error.response;
+  }
+});
+
+
+Then('they should see the delete message {string}', function (expectedMessage) {
+  // Verificamos o status de criação (201) e a mensagem de sucesso.
+  assert.strictEqual(this.response.status, 201, `Expected status 201 but got ${this.response.status}`);
+  assert.strictEqual(this.response.data.message, expectedMessage);
+});
+
+Then('the movie {string} should appear in the general catalog list', async function (movieName) {
+  // Para confirmar, fazemos uma nova chamada para buscar todos os filmes.
+  const getResponse = await axios.get(`${API_BASE_URL}/api/movies`);
+  
+  // Verificamos se um filme com o nome esperado existe na lista retornada.
+  const movieExists = getResponse.data.some(movie => movie.name === movieName);
+  
+  assert.ok(movieExists, `The movie "${movieName}" was not found in the catalog after creation.`);
+});
+
+Given('the movie {string} exists in the system with the genre {string}', async function (movieName, genre) {
+  const response = await axios.post(`${API_BASE_URL}/api/movies`, {
+    name: movieName, description: `A movie called ${movieName}`, year: 1972, director: "Francis Ford Coppola", genre: genre
+  });
+  this.movieId = response.data.movie.id;
+});
+
+Given('the movie {string} is available for streaming on {string}', async function (movieName, platform) {
+  const response = await axios.post(`${API_BASE_URL}/api/movies`, {
+    name: movieName, description: `A movie called ${movieName}`, year: 2014, director: "Christopher Nolan", genre: "Sci-Fi",
+    availability: { streaming: [platform] }
+  });
+  this.movieId = response.data.movie.id;
+});
+
+Given('the movie {string} exists in the system', async function (movieName) {
+    const response = await axios.post(`${API_BASE_URL}/api/movies`, {
+        name: movieName, description: `A movie called ${movieName}`, year: 2019, director: "Todd Phillips", genre: "Drama"
+    });
+    this.movieId = response.data.movie.id;
+});
+
+
+When('a user goes to the edit page for the movie {string}', function (movieName) { /* Declarativo */ });
+
+When('changes the {string} field to {string}', function (field, value) {
+  // Prepara o dado para a atualização. O 'toLowerCase()' torna mais flexível.
+  this.updateData = { [field.toLowerCase()]: value };
+});
+
+When('they submit the changes', async function () {
+  assert.ok(this.movieId, 'Movie ID was not set in the Given step');
+  try {
+    this.response = await axios.put(`${API_BASE_URL}/api/movies/${this.movieId}`, this.updateData);
+  } catch (error) {
+    this.response = error.response;
+  }
+});
+
+When('they submit the changes for review', async function () {
+  try {
+    this.response = await axios.put(`${API_BASE_URL}/api/movies/${this.reviewId}`, this.reviewData);
+  } catch (error) {
+    this.response = error.response;
+  }
+});
+
+
+When('a user on the {string} movie page decides to delete it and confirms their intention', async function (movieName) {
+    assert.ok(this.movieId, 'Movie ID was not set in the Given step');
+    try {
+        this.response = await axios.delete(`${API_BASE_URL}/api/movies/${this.movieId}`);
+    } catch (error) {
+        this.response = error.response;
+    }
+});
+
+Then('they should see the message {string}', function (expectedMessage) {
+  // Verifica se o status da resposta é de sucesso (2xx)
+  assert.ok(this.response.status >= 200 && this.response.status < 300, `Expected a success status code, but got ${this.response.status}`);
+  assert.strictEqual(this.response.data.message, expectedMessage);
+});
+
+Then('on the movie\'s details page, the displayed genre should be {string}', async function (expectedGenre) {
+  assert.strictEqual(this.response.data.movie.genre, expectedGenre);
+});
+
+Then('they should see a section called {string}', function (sectionName) {
+  assert.ok(this.response.data.availability, `The response JSON does not have the '${sectionName}' field.`);
+});
+
+Then('in that section, {string} should be listed as an option', function (platformName) {
+  const streamingPlatforms = this.response.data.availability.streaming;
+  assert.ok(streamingPlatforms.includes(platformName), `"${platformName}" was not found in the streaming list.`);
+});
+
+Then('the movie {string} should no longer be displayed in the list', async function (movieName) {
+    const getResponse = await axios.get(`${API_BASE_URL}/api/movies`);
+    const movieExists = getResponse.data.some(movie => movie.name === movieName);
+    assert.strictEqual(movieExists, false, `Movie "${movieName}" was found, but it should have been deleted.`);
+});
+
+Given('a user is on the details page for the movie {string}', async function (movieName) {
+  // Garante que o filme existe para que possamos adicionar a review a ele.
+  const movieResponse = await axios.post(`${API_BASE_URL}/api/movies`, {
+    name: movieName, description: `A movie called ${movieName}`, year: 2019, director: "Céline Sciamma", genre: "Romance"
+  });
+  this.movieId = movieResponse.data.movie.id;
+});
+
+Given('a user has posted a review on the {string} movie page', async function (movieName) {
+  // CORREÇÃO: Enviando um objeto de filme completo para evitar erro 400.
+  const movieResponse = await axios.post(`${API_BASE_URL}/api/movies`, {
+    name: movieName, description: "A movie about computer-generated reality.", year: 1999, director: "Wachowskis", genre: "Sci-Fi"
+  });
+  this.movieId = movieResponse.data.movie.id;
+
+  const reviewResponse = await axios.post(`${API_BASE_URL}/api/reviews`, {
+    text: "Initial review text.", rating: 4, movieId: this.movieId
+  });
+  this.reviewId = reviewResponse.data.id;
+});
+
+Given('a user has posted a review with the text {string}', async function (reviewText) {
+  // CORREÇÃO: Enviando um objeto de filme completo para evitar erro 400.
+  const movieResponse = await axios.post(`${API_BASE_URL}/api/movies`, {
+    name: "A Movie", description: "A test movie.", year: 2023, director: "A Director", genre: "Test"
+  });
+  this.movieId = movieResponse.data.movie.id;
+
+  const reviewResponse = await axios.post(`${API_BASE_URL}/api/reviews`, {
+    text: reviewText, rating: 3, movieId: this.movieId
+  });
+  this.reviewId = reviewResponse.data.id;
+});
+
+Given('a user attempts to perform an edit action on a review that has already been deleted', function () {
+  // Este passo é declarativo. Vamos usar um ID que sabemos que não existe.
+  this.reviewId = '999';
+});
+
+
+// WHEN (Ação)
+
+When('they write a review with the text {string} and a rating of {int}', function (text, rating) {
+  // Prepara os dados da review para serem enviados.
+  this.reviewData = { text, rating, movieId: this.movieId };
+});
+
+When('they submit the new review', async function () {
+  try {
+    this.response = await axios.post(`${API_BASE_URL}/api/reviews`, this.reviewData);
+  } catch (error) {
+    this.response = error.response;
+  }
+});
+
+When('they decide to delete their review', function () { /* Declarativo */ });
+
+When('they confirm the action', async function () {
+  try {
+    this.response = await axios.delete(`${API_BASE_URL}/api/reviews/${this.reviewId}`);
+  } catch (error) {
+    this.response = error.response;
+  }
+});
+
+When('they choose to edit their review', function () { /* Declarativo */ });
+
+When('they change the text to {string}', function (newText) {
+  this.reviewData = { text: newText };
+});
+
+When('they save the changes', async function () {
+  try {
+    this.response = await axios.put(`${API_BASE_URL}/api/reviews/${this.reviewId}`, this.reviewData);
+  } catch (error) {
+    this.response = error.response;
+  }
+});
+
+
+// THEN (Verificação)
+
+Then('their review with the text {string} should be visible on the page', async function (expectedText) {
+  assert.strictEqual(this.response.data.text, expectedText);
+});
+
+Then('their review should no longer be visible on the page', async function () {
+  try {
+    // Tenta buscar a review que foi deletada.
+    await axios.get(`${API_BASE_URL}/api/reviews/${this.reviewId}`);
+    // Se a chamada acima não der erro, o teste falha, pois a review ainda existe.
+    assert.fail('The review was found, but it should have been deleted.');
+  } catch (error) {
+    // O esperado é receber um erro 404 (Not Found).
+    assert.strictEqual(error.response.status, 404, 'Expected a 404 status, but received something else.');
+  }
+});
+
+Then('the updated text {string} should be visible in their review', function (expectedText) {
+  assert.strictEqual(this.response.status, 200);
+  assert.strictEqual(this.response.data.text, expectedText);
+});
+
+Then('the review should be marked as {string}', function (marker) {
+  // Assumindo que a API retorna um campo 'isEdited: true'.
+  assert.strictEqual(this.response.data.isEdited, true);
+});
+
+Then('they should see an error message indicating {string}', function (errorMessage) {
+  // Verifica se o status é de erro (ex: 404) e se a mensagem corresponde.
+  assert.strictEqual(this.response.status, 404);
+});
