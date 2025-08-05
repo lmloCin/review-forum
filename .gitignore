@@ -4,3 +4,4 @@ yarn.lock
 personal-notes.md
 coverage/
 .idea/
+/node_modules/
