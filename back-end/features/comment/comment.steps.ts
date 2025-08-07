@@ -46,7 +46,11 @@ defineFeature(feature, test=> {
                     id: 1,
                     name: "Movie Title",
                     created_at: new Date(),
-                    description: ""
+                    description: "",
+                    year: 2020,
+                    director: "Director",
+                    reviews: [],
+                    bannerURL: ""
                 },
                 username: 'asdsada',
                 created_at: new Date(),
