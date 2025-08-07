@@ -1,18 +1,22 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
+import { useAuth } from '../context/AuthContext'; 
 
 const Header: React.FC = () => {
+  const { isAdmin, loginAsAdmin, logout } = useAuth(); 
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.brandNav}>
-          <h1 className={styles.brand}>
-            Review<span className={styles.brandAccent}>Forum</span>
-          </h1>
+          <Link to="/" className={styles.brandLink}>
+            <h1 className={styles.brand}>
+              Review<span className={styles.brandAccent}>Forum</span>
+            </h1>
+          </Link>
           <nav className={styles.nav}>
-            <a href="#">Films</a>
-            <a href="#">Lists</a>
-            <a href="#">Members</a>
+            <Link to="/">Films</Link>
+            <a href="#">Forum</a>
           </nav>
         </div>
         <div className={styles.controls}>
@@ -21,7 +25,16 @@ const Header: React.FC = () => {
             placeholder="Search..."
             className={styles.searchInput}
           />
-          <a href="#" className={styles.loginLink}>Login</a>
+          {/* Renderização condicional do botão de Login/Logout */}
+          {isAdmin ? (
+            <button onClick={logout} className={styles.loginLink}>
+              Logout (Admin)
+            </button>
+          ) : (
+            <button onClick={loginAsAdmin} className={styles.loginLink}>
+              Login
+            </button>
+          )}
         </div>
       </div>
     </header>
