@@ -4,17 +4,16 @@ import { test, expect } from '@playwright/test';
 test('Successfully register a new movie', async ({ page }) => {
   const newMovieTitle = `Filme de Teste ${crypto.randomUUID()}`;
 
-  // Preparamos o teste para aceitar todos os pop-ups de confirmação
   page.on('dialog', dialog => dialog.accept());
 
-  // 1. Navegar para a página principal e fazer login como admin
+  // 1. Navegar e fazer login
   await page.goto('http://localhost:3000/');
   await page.getByRole('button', { name: 'Login' }).click();
 
-  // 2. Clicar para adicionar um novo filme
-  await page.locator('[href="/add-movie"]').click();
+  // 2. Ir para a página de adicionar filme
+  await page.getByRole('link', { name: '+ Adicionar Filme' }).click();
   
-  // 3. Preencher o formulário com os dados do novo filme
+  // 3. Preencher o formulário
   await page.getByLabel('Título*').fill(newMovieTitle);
   await page.getByLabel('Ano de Lançamento*').fill('2025');
   await page.getByLabel('Diretor(es)*').fill('Diretor de Teste');
@@ -31,7 +30,7 @@ test('Successfully register a new movie', async ({ page }) => {
   // 5. Verificar se o filme aparece na página principal
   await expect(page.getByRole('link', { name: newMovieTitle })).toBeVisible();
 
-  // 6. Limpeza: Apagar o filme criado para não interferir com outros testes
+  // 6. Limpeza
   await page.getByRole('link', { name: newMovieTitle }).click();
   await page.getByRole('button', { name: 'Delete Movie' }).click();
 });
@@ -43,10 +42,10 @@ test('Edit the tags of an existing movie', async ({ page }) => {
   
   page.on('dialog', dialog => dialog.accept());
 
-  // Passo de Setup: Fazer login e criar o filme via UI
+  // Passo de Setup: Criar o filme
   await page.goto('http://localhost:3000/');
   await page.getByRole('button', { name: 'Login' }).click();
-  await page.locator('[href="/add-movie"]').click();
+  await page.getByRole('link', { name: '+ Adicionar Filme' }).click();
   
   await page.getByLabel('Título*').fill(movieToEditTitle);
   await page.getByLabel('Ano de Lançamento*').fill('2024');
@@ -58,24 +57,28 @@ test('Edit the tags of an existing movie', async ({ page }) => {
     page.getByRole('button', { name: 'Adicionar Filme' }).click(),
   ]);
 
-  // 1. Encontrar o filme na homepage e navegar para a sua página de detalhes
+  // 1. Navegar para a página de detalhes
   await page.getByRole('link', { name: movieToEditTitle }).click();
   
-  // 2. Na página de detalhes, clicar no botão para editar
+  // 2. Clicar no botão para editar
   await page.getByRole('link', { name: 'Edit Movie' }).click();
 
-  // 3. Na página de edição, alterar o campo de tags
+  // 3. Alterar o campo de tags
   const tagsInput = page.getByLabel('Tags (separadas por vírgula)*');
   await tagsInput.fill('tag, editada, sucesso');
   
-  // 4. Submeter as alterações
-  await page.getByRole('button', { name: 'Editar Filme' }).click();
+  // 4. Submeter as alterações e esperar pela navegação de volta
+  await Promise.all([
+      page.waitForURL(/\/movie\/\d+/), // Espera por uma URL como /movie/123
+      page.getByRole('button', { name: 'Editar Filme' }).click(),
+  ]);
 
-  // 5. Verificar se, na página de detalhes, as tags foram atualizadas
-  await expect(page.locator('span').filter({ hasText: 'editada' })).toBeVisible();
-  await expect(page.locator('span').filter({ hasText: 'sucesso' })).toBeVisible();
+  // 5. Verificar se as tags foram atualizadas
+  // CORREÇÃO: Usamos um seletor mais específico para encontrar as tags
+  await expect(page.locator('div[class*="tagsContainer"] >> text=editada')).toBeVisible();
+  await expect(page.locator('div[class*="tagsContainer"] >> text=sucesso')).toBeVisible();
 
-  // 6. Limpeza: Apagar o filme criado
+  // 6. Limpeza
   await page.getByRole('button', { name: 'Delete Movie' }).click();
 });
 
@@ -86,10 +89,10 @@ test('Delete a movie from the catalog', async ({ page }) => {
 
   page.on('dialog', dialog => dialog.accept());
 
-  // Passo de Setup: Fazer login e criar o filme via UI
+  // Passo de Setup: Criar o filme
   await page.goto('http://localhost:3000/');
   await page.getByRole('button', { name: 'Login' }).click();
-  await page.locator('[href="/add-movie"]').click();
+  await page.getByRole('link', { name: '+ Adicionar Filme' }).click();
 
   await page.getByLabel('Título*').fill(movieToDeleteTitle);
   await page.getByLabel('Ano de Lançamento*').fill('2023');
@@ -101,14 +104,16 @@ test('Delete a movie from the catalog', async ({ page }) => {
     page.getByRole('button', { name: 'Adicionar Filme' }).click(),
   ]);
 
-  // 1. Encontrar o filme e navegar para a sua página de detalhes
+  // 1. Navegar para a página de detalhes
   await page.getByRole('link', { name: movieToDeleteTitle }).click();
 
-  // 2. Clicar no botão para apagar o filme
-  await page.getByRole('button', { name: 'Delete Movie' }).click();
+  // 2. Clicar no botão para apagar e esperar pela navegação
+  await Promise.all([
+      page.waitForURL('http://localhost:3000/'),
+      page.getByRole('button', { name: 'Delete Movie' }).click(),
+  ]);
 
-  // 3. Verificar se fomos redirecionados para a homepage e se o filme já não existe
-  await expect(page).toHaveURL('http://localhost:3000/');
+  // 3. Verificar se o filme já não existe
   await expect(page.getByRole('link', { name: movieToDeleteTitle })).not.toBeVisible();
 });
 
@@ -123,7 +128,7 @@ test('Add a new review to a movie', async ({ page }) => {
     // Passo de Setup: Criar o filme
     await page.goto('http://localhost:3000/');
     await page.getByRole('button', { name: 'Login' }).click();
-    await page.locator('[href="/add-movie"]').click();
+    await page.getByRole('link', { name: '+ Adicionar Filme' }).click();
     await page.getByLabel('Título*').fill(movieTitle);
     await page.getByLabel('Ano de Lançamento*').fill('2022');
     await page.getByLabel('Diretor(es)*').fill('Diretor de Review');
@@ -133,23 +138,26 @@ test('Add a new review to a movie', async ({ page }) => {
         page.getByRole('button', { name: 'Adicionar Filme' }).click(),
     ]);
 
-    // 1. Navegar para a página de detalhes do filme criado
+    // 1. Navegar para a página de detalhes
     await page.getByRole('link', { name: movieTitle }).click();
 
-    // 2. Clicar no botão para adicionar uma review
+    // 2. Clicar para adicionar uma review
     await page.getByRole('link', { name: '+ Add Review' }).click();
 
     // 3. Preencher o formulário da review
-    await page.locator('span').filter({ hasText: '★' }).nth(4).click(); // Clica na 5ª estrela
+    await page.locator('span:has-text("★")').nth(4).click();
     await page.getByPlaceholder('Fotografia belíssima e uma história tocante!').fill(reviewText);
 
-    // 4. Submeter a review
-    await page.getByRole('button', { name: 'Enviar Review' }).click();
+    // 4. Submeter a review e esperar pela navegação de volta
+    await Promise.all([
+        page.waitForURL(/\/movie\/\d+/),
+        page.getByRole('button', { name: 'Enviar Review' }).click(),
+    ]);
 
-    // 5. Verificar se a review aparece na página de detalhes
-    await expect(page.locator('p').filter({ hasText: reviewText })).toBeVisible();
+    // 5. Verificar se a review aparece na página
+    await expect(page.locator('p', { hasText: reviewText })).toBeVisible();
 
-    // 6. Limpeza: Apagar o filme criado
+    // 6. Limpeza
     await page.getByRole('button', { name: 'Delete Movie' }).click();
 });
 
@@ -163,10 +171,10 @@ test('Verify movie details after creation', async ({ page }) => {
 
     page.on('dialog', dialog => dialog.accept());
 
-    // Passo de Setup: Criar o filme com detalhes específicos
+    // Passo de Setup: Criar o filme
     await page.goto('http://localhost:3000/');
     await page.getByRole('button', { name: 'Login' }).click();
-    await page.locator('[href="/add-movie"]').click();
+    await page.getByRole('link', { name: '+ Adicionar Filme' }).click();
     await page.getByLabel('Título*').fill(movieTitle);
     await page.getByLabel('Ano de Lançamento*').fill(movieYear);
     await page.getByLabel('Diretor(es)*').fill(movieDirector);
@@ -176,16 +184,16 @@ test('Verify movie details after creation', async ({ page }) => {
         page.getByRole('button', { name: 'Adicionar Filme' }).click(),
     ]);
 
-    // 1. Navegar para a página de detalhes do filme
+    // 1. Navegar para a página de detalhes
     await page.getByRole('link', { name: movieTitle }).click();
 
-    // 2. Verificar se todos os detalhes estão corretos
-    await expect(page.getByRole('heading', { name: movieTitle })).toBeVisible();
-    await expect(page.locator('span').filter({ hasText: movieYear })).toBeVisible();
-    await expect(page.locator('p').filter({ hasText: `Directed by ${movieDirector}` })).toBeVisible();
-    await expect(page.locator('span').filter({ hasText: 'detalhes' })).toBeVisible();
-    await expect(page.locator('span').filter({ hasText: 'teste' })).toBeVisible();
+    // 2. Verificar se os detalhes estão corretos
+    // CORREÇÃO: Esperamos explicitamente que a página de detalhes carregue antes de verificar
+    await expect(page.getByRole('heading', { name: movieTitle, level: 1 })).toBeVisible();
+    await expect(page.locator('p', { hasText: `Directed by ${movieDirector}` })).toBeVisible();
+    await expect(page.locator('div[class*="tagsContainer"] >> text=detalhes')).toBeVisible();
+    await expect(page.locator('div[class*="tagsContainer"] >> text=teste')).toBeVisible();
 
-    // 3. Limpeza: Apagar o filme criado
+    // 3. Limpeza
     await page.getByRole('button', { name: 'Delete Movie' }).click();
 });

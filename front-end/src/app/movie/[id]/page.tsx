@@ -40,7 +40,7 @@ function MovieDetailsPage() {
     fetchDetails();
   }, [id]);
 
-  const handleDeleteMovie = async () => {
+  const handleDelete = async () => {
     if (window.confirm(`Tem a certeza que deseja apagar o filme "${movie?.name}"?`)) {
       try {
         await apiClient.delete(`/movies/${id}`);
@@ -53,26 +53,24 @@ function MovieDetailsPage() {
     }
   };
 
-  
-  const handleDeleteReview = async (reviewId: number) => {
-    if (window.confirm('Tem a certeza que deseja apagar esta review?')) {
-        try {
-            await apiClient.delete(`/reviews/${reviewId}`);
-            alert('Review apagada com sucesso!');
-            
-            setMovie(prevMovie => {
-                if (!prevMovie) return null;
-                return {
-                    ...prevMovie,
-                    reviews: prevMovie.reviews?.filter(r => r.id !== reviewId)
-                };
-            });
-        } catch (error) {
-            console.error("Erro ao apagar a review:", error);
-            alert('Falha ao apagar a review.');
-        }
-    }
-  };
+  const renderAvailability = (availability: Availability | null | undefined) => {
+      if (!availability) return <p>Informação de disponibilidade não encontrada.</p>;
+      const hasStreaming = availability.streaming && availability.streaming.length > 0;
+      const hasRent = availability.rent && availability.rent.length > 0;
+      const hasPurchase = availability.purchase && availability.purchase.length > 0;
+
+      if (!hasStreaming && !hasRent && !hasPurchase) {
+          return <p>Não está disponível em nenhuma plataforma.</p>
+      }
+
+      return (
+          <div className={styles.availabilityGrid}>
+              {hasStreaming && <div><h3>Streaming</h3><ul>{availability.streaming?.map(s => <li key={s}>{s}</li>)}</ul></div>}
+              {hasRent && <div><h3>Alugar</h3><ul>{availability.rent?.map(r => <li key={r}>{r}</li>)}</ul></div>}
+              {hasPurchase && <div><h3>Comprar</h3><ul>{availability.purchase?.map(p => <li key={p}>{p}</li>)}</ul></div>}
+          </div>
+      )
+  }
 
   if (loading) return <p className={styles.loading}>A carregar...</p>;
   if (!movie) return <p className={styles.error}>Filme não encontrado.</p>;
@@ -109,13 +107,37 @@ function MovieDetailsPage() {
                 <Link href={`/movie/${movie.id}/edit`} className={styles.adminButton}>
                   Edit Movie
                 </Link>
-                <button onClick={handleDeleteMovie} className={`${styles.adminButton} ${styles.deleteButton}`}>
+                <button onClick={handleDelete} className={`${styles.adminButton} ${styles.deleteButton}`}>
                   Delete Movie
                 </button>
               </div>
             ) : (
               <p>Sign in to log, rate or review</p>
             )}
+          </div>
+          
+          {}
+          <div className={styles.infoSection}>
+            <div className={styles.infoNav}>
+                <button onClick={() => setActiveTab('tags')} className={activeTab === 'tags' ? styles.activeTab : ''}>Tags</button>
+                <button onClick={() => setActiveTab('available')} className={activeTab === 'available' ? styles.activeTab : ''}>Available On</button>
+            </div>
+            <div className={styles.infoContent}>
+                {activeTab === 'tags' && (
+                    <div className={styles.tagsContainer}>
+                        {movie.tags && movie.tags.length > 0 ? (
+                            movie.tags.map(tag => <span key={tag} className={styles.tag}>{tag}</span>)
+                        ) : (
+                            <p>No tags available.</p>
+                        )}
+                    </div>
+                )}
+                {activeTab === 'available' && (
+                    <div>
+                        {renderAvailability(movie.availability)}
+                    </div>
+                )}
+            </div>
           </div>
         </section>
       </div>
@@ -136,11 +158,10 @@ function MovieDetailsPage() {
                     <div className={styles.reviewAvatar}></div>
                     <span className={styles.reviewUsername}>@{review.username || `user_${review.id}`}</span>
                 </div>
-                {}
                 <div className={styles.reviewActions}>
                     <span className={styles.reviewRating}>Rating: {review.rating}/5</span>
                     {isAdmin && (
-                        <button onClick={() => handleDeleteReview(review.id)} className={styles.reviewDeleteButton}>
+                        <button className={styles.reviewDeleteButton}>
                             Delete
                         </button>
                     )}
