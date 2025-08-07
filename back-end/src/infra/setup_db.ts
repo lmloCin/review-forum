@@ -14,7 +14,6 @@ export const AppDataSource = new DataSource({
   username: "postgres",
   password: "asd",
   database: "review_forum",
-  synchronize: true,       
-  dropSchema:true,
+  synchronize: true,
   entities: [Movie, Review, Forum, Comment,MovieReviewStats],
 });

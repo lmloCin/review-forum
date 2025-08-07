@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 13, "column": 0}, "map": {"version":3,"sources":["file:///home/dev/projects/review-forum/front-end/src/pages/forum/index.tsx"],"sourcesContent":["import React from 'react';\nimport Comments from '../../components/Comments/Comments';\nimport './Forum.css';\n\nconst ForumIndexPage: React.FC = () => {\n  return (\n    <div className=\"forum-index-page\">\n      <div className=\"forum-content\">\n        <h1>Fóruns Disponíveis</h1>\n        <div className=\"forum-list\">\n          <div className=\"forum-item\">\n            <h3>Discussão Geral sobre Filmes</h3>\n            <p>Compartilhe suas opiniões sobre filmes em geral</p>\n          </div>\n        </div>\n        \n      </div>\n    </div>\n  );\n};\n\nexport default ForumIndexPage;"],"names":[],"mappings":";;;;;;AAIA,MAAM,iBAA2B;IAC/B,qBACE,qKAAC;QAAI,WAAU;kBACb,cAAA,qKAAC;YAAI,WAAU;;8BACb,qKAAC;8BAAG;;;;;;8BACJ,qKAAC;oBAAI,WAAU;8BACb,cAAA,qKAAC;wBAAI,WAAU;;0CACb,qKAAC;0CAAG;;;;;;0CACJ,qKAAC;0CAAE;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAOf;uCAEe","debugId":null}}]
-}

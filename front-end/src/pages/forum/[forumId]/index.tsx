@@ -70,16 +70,14 @@ export default function Forum() {
           description: forumData.description
         });
       
-      setForumData(updatedForum);
+      setForumData(updatedForum.data);
       setIsEditingTitle(false);
-      console.log('Título atualizado com sucesso:', updatedForum);
     } catch (error) {
       console.error('Erro ao atualizar título:', error);
     }
   };
 
   const handleSaveDescription = async () => {
-    if (!editedDescription.trim()) return;
     
     try {
       const updatedForum = await updateForum(forumData.id, {
@@ -87,9 +85,9 @@ export default function Forum() {
         description: editedDescription
       });
       
-      setForumData(updatedForum);
+      setForumData(updatedForum.data);
       setIsEditingDescription(false);
-      console.log('Descrição atualizada com sucesso:', updatedForum);
+      console.log('Descrição atualizada com sucesso:', updatedForum.data);
     } catch (error) {
       console.error('Erro ao atualizar descrição:', error);
     }

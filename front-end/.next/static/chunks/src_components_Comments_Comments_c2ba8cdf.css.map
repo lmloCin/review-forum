@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///home/dev/projects/review-forum/front-end/src/components/Comments/Comments.css"],"sourcesContent":[".comments-container {\n  max-width: 800px;\n  margin: 0 auto;\n  padding: 20px;\n}\n\n.comments-container h3 {\n  color: #333;\n  margin-bottom: 20px;\n  font-size: 24px;\n}\n\n.comment {\n  background: #f9f9f9;\n  border-radius: 8px;\n  padding: 15px;\n  margin-bottom: 15px;\n  border-left: 4px solid #007bff;\n}\n\n.comment-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.author {\n  font-weight: bold;\n  color: #007bff;\n}\n\n.date {\n  color: #666;\n  font-size: 14px;\n}\n\n.rating {\n  margin-bottom: 10px;\n  color: #ffc107;\n  font-size: 18px;\n}\n\n.content {\n  color: #333;\n  line-height: 1.5;\n} "],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;;;AAMA;;;;;;;;AAQA;;;;;;;AAOA;;;;;AAKA;;;;;AAKA;;;;;;AAMA","debugId":null}}]
-}
