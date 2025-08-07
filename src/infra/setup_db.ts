@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
   host: "127.0.0.1",
   port: 5432,
   username: "postgres",
-  password: "admin",
+  password: "asd",
   database: "review_forum",
   synchronize: true,       // auto-creates tables in dev :contentReference[oaicite:2]{index=2}
   dropSchema:true,

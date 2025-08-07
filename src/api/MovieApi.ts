@@ -1,6 +1,9 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import MovieServices from "../services/MovieServices";
+import cors from 'cors';
 const MovieRouter = Router();
+
+MovieRouter.use(cors());
 
 /**
  * @swagger
