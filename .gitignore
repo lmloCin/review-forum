@@ -11,3 +11,4 @@ back-end/yarn.lock
 back-end/personal-notes.md
 back-end/coverage/
 back-end/coverage/
+*.next/

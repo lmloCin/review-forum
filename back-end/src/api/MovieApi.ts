@@ -1,9 +1,7 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router, Request, Response } from "express";
 import MovieServices from "../services/MovieServices";
-import cors from 'cors';
 const MovieRouter = Router();
 
-MovieRouter.use(cors());
 
 /**
  * @swagger
@@ -393,7 +391,7 @@ MovieRouter.get('/search-by-tags', async (req: Request, res: Response) => {
  */
 //api/movies/by-rating?min=&max=
 
-MovieRouter.get('/by-rating', async (req: Request, res: Response) => {
+MovieRouter.get('/by-rating', async (req, res) => {
     const min = parseFloat(req.query.min as string);
     const max = parseFloat(req.query.max as string);
 
