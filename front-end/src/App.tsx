@@ -1,4 +1,4 @@
-import HomePage from './pages/HomePage';
+import HomePage from './app/page';
 import Header from './components/Header';
 
 function App() {

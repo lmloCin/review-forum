@@ -34,11 +34,6 @@ tr td {
     align-items: center;
 }
 
-
-
-/* ... existing code ... */
-
-/* Estilos para o componente de comentários */
 .comments-container {
   border-radius: 12px;
   padding: 24px;
@@ -145,7 +140,6 @@ tr td {
   gap: 4px;
 }
 
-/* Linha vertical para comentários aninhados */
 .comment-item:not(:first-child) {
   position: relative;
 }
@@ -159,7 +153,6 @@ tr td {
   width: 2px;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .comments-container {
     padding: 16px;
@@ -225,10 +218,11 @@ tr td {
 
 .forum-content h1 {
   color: #333;
-  margin-bottom: 30px;
+  font-size: 21px;
+  font-weight: bold;
+
 }
 
-/* Estilos para a página do fórum individual */
 .forum-page-container {
   padding: 20px;
   max-width: 100%;
@@ -316,7 +310,6 @@ tr td {
   background: #c82333;
 }
 
-/* Estilos para edição de descrição */
 .forum-description-container {
   margin-bottom: 20px;
 }
@@ -465,7 +458,6 @@ tr td {
   background: #0056b3;
 }
 
-/* Estilos para o botão de adicionar fórum */
 .forum-header {
   display: flex;
   align-items: center;
@@ -496,7 +488,6 @@ tr td {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Estilos para o modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -635,7 +626,6 @@ tr td {
   background: #0056b3;
 }
 
-/* Responsividade para o modal */
 @media (max-width: 768px) {
   .modal-content {
     width: 95%;
