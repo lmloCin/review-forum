@@ -43,12 +43,12 @@
 
 .star {
     cursor: pointer;
-    color: #4b5563; /* Cor da estrela inativa */
+    color: #4b5563; 
     transition: color 0.2s;
 }
 
 .starActive {
-    color: #f59e0b; /* Cor da estrela ativa (amarelo) */
+    color: #f59e0b; 
 }
 
 .textarea {

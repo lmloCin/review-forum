@@ -1,5 +1,5 @@
-import HomePage from './app/page';
-import Header from './components/Header';
+import HomePage from '@/app/page.tsx';
+import Header from '@/components/Header';
 
 function App() {
   return (

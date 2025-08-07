@@ -113,7 +113,7 @@ test('Delete a movie from the catalog', async ({ page }) => {
 });
 
 
-// --- NOVO Teste para o Cenário: Add a new review to a movie ---
+// --- Teste para o Cenário: Add a new review to a movie ---
 test('Add a new review to a movie', async ({ page }) => {
     const movieTitle = `Filme para Review ${crypto.randomUUID()}`;
     const reviewText = "Este é um comentário de teste excelente!";
@@ -154,7 +154,7 @@ test('Add a new review to a movie', async ({ page }) => {
 });
 
 
-// --- NOVO Teste para o Cenário: Verify movie details after creation ---
+// --- Teste para o Cenário: Verify movie details after creation ---
 test('Verify movie details after creation', async ({ page }) => {
     const movieTitle = `Filme para Detalhes ${crypto.randomUUID()}`;
     const movieYear = '2021';
