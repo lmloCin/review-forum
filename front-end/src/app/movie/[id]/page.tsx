@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation'; // CORREÇÃO: Importado de 'next/navigation'
-import Link from 'next/link'; // CORREÇÃO: Importado de 'next/link'
+import { useParams, useRouter } from 'next/navigation'; 
+import Link from 'next/link'; 
 import apiClient from '@/services/api';
 import type { Movie, Review, Availability } from '@/types/movie';
 import styles from './page.module.css'; 
@@ -53,13 +53,13 @@ function MovieDetailsPage() {
     }
   };
 
-  // NOVA função para apagar uma review
+  
   const handleDeleteReview = async (reviewId: number) => {
     if (window.confirm('Tem a certeza que deseja apagar esta review?')) {
         try {
             await apiClient.delete(`/reviews/${reviewId}`);
             alert('Review apagada com sucesso!');
-            // Atualiza o estado para remover a review da UI instantaneamente
+            
             setMovie(prevMovie => {
                 if (!prevMovie) return null;
                 return {
@@ -136,7 +136,7 @@ function MovieDetailsPage() {
                     <div className={styles.reviewAvatar}></div>
                     <span className={styles.reviewUsername}>@{review.username || `user_${review.id}`}</span>
                 </div>
-                {/* Adicionamos o botão de apagar review */}
+                {}
                 <div className={styles.reviewActions}>
                     <span className={styles.reviewRating}>Rating: {review.rating}/5</span>
                     {isAdmin && (

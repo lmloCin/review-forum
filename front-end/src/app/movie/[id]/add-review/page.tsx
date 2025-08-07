@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation'; // CORREÇÃO: Importado de 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'; 
 import apiClient from '@/services/api';
 import type { Movie } from '@/types/movie';
-import styles from './page.module.css'; // Supondo que o CSS está no mesmo diretório
+import styles from './page.module.css'; 
 
 function AddReviewPage() {
   const params = useParams();
-  const router = useRouter(); // CORREÇÃO: Usamos useRouter em vez de useNavigate
+  const router = useRouter(); 
   const [movie, setMovie] = useState<Movie | null>(null);
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
@@ -45,7 +45,7 @@ function AddReviewPage() {
         movieId: Number(id)
       });
       alert('Review enviada com sucesso!');
-      router.push(`/movie/${id}`); // CORREÇÃO: Usamos router.push
+      router.push(`/movie/${id}`); 
     } catch (error) {
       console.error("Erro ao enviar a review:", error);
       alert('Falha ao enviar a review.');
