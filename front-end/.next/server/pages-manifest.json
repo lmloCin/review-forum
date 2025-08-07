@@ -1,5 +1,6 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/forum": "pages/forum.js"
+  "/forum": "pages/forum.js",
+  "/forum/[forumId]": "pages/forum/[forumId].js"
 }
