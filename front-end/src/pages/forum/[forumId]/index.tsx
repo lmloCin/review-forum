@@ -121,7 +121,6 @@ export default function Forum() {
 
   const saveComment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newCommentInput.trim()) return;
     
     let comment = {
       'forumId': forumData.id,
