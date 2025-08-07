@@ -41,7 +41,6 @@ function HomePage() {
     <div className={styles.container}>
       <div className={styles.pageHeader}>
         <h1 className={styles.mainTitle}>Filmes</h1>
-        {/* O botão agora aponta para a nova rota /add-movie */}
         {isAdmin && (
           <Link href="/add-movie" className={styles.addButton}>
             + Adicionar Filme

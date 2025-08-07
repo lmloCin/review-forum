@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import styles from './Header.module.css'; // Importamos o ficheiro de estilos
+import styles from './Header.module.css'; 
 import { useAuth } from '@/context/AuthContext';
 
 const Header: React.FC = () => {
