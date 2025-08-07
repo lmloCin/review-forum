@@ -1,5 +1,5 @@
 import { JoinColumn,Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, UpdateDateColumn } from 'typeorm';
-import { Movie } from './Movie';
+import { Movie } from '../../../src/models/Movie';
 
 
 @Entity()

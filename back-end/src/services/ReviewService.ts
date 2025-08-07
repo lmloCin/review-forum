@@ -1,6 +1,6 @@
 import { Review } from "../models/Review";
 import ReviewRepository from "../repository/ReviewRepository";
-import MovieRepository from "../repository/MovieRepository";
+import MovieRepository from "../../../src/repository/MovieRepository";
 
 
 interface ReviewDTO {
