@@ -70,6 +70,7 @@ export default function Forum() {
           description: forumData.description
         });
       
+      console.log('Título atualizado com sucesso:', updatedForum.data);
       setForumData(updatedForum.data);
       setIsEditingTitle(false);
     } catch (error) {
