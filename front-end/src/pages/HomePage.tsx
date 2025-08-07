@@ -1,40 +1,38 @@
-// src/pages/HomePage.tsx
 import React, { useState, useEffect } from 'react';
-import apiClient from '../services/api'; // Importa nosso serviço de API
-import type { Movie } from '../types/movie'; // Importa nosso tipo
+import apiClient from '../services/api';
+import type { Movie } from '../types/movie';
+import MovieRow from '../components/MovieRow';
+import styles from './HomePage.module.css';
 
 function HomePage() {
-  const [movies, setMovies] = useState<Movie[]>([]); // Tipando o estado
+  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+  const [newMovies, setNewMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchAllMovies = async () => {
       try {
-        // A resposta do Axios será inferida, mas podemos ser explícitos
         const response = await apiClient.get<Movie[]>('/movies');
-        setMovies(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar filmes:", error);
+        const allMovies = response.data;
+        setPopularMovies(allMovies.slice(0, 10));
+        setNewMovies(allMovies.slice(10));
+      } catch (err) {
+        setError("Não foi possível carregar os filmes.");
       } finally {
         setLoading(false);
       }
     };
+    fetchAllMovies();
+  }, []);
 
-    fetchMovies();
-  }, []); // O array vazio garante que isso rode apenas uma vez
-
-  if (loading) {
-    return <p>Carregando filmes...</p>;
-  }
+  if (loading) return <p className={styles.loading}>A carregar...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
 
   return (
-    <div>
-      <h1>Catálogo de Filmes</h1>
-      <ul>
-        {movies.map((movie: Movie) => (
-          <li key={movie.id}>{movie.name}</li>
-        ))}
-      </ul>
+    <div className={styles.container}>
+      <MovieRow title="Filmes Populares" movies={popularMovies} />
+      <MovieRow title="Novos Lançamentos" movies={newMovies} />
     </div>
   );
 }
