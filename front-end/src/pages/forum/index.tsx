@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Comments from '../../components/Comments/Comments';
-import { listAll, createForum } from '@/services/ForumService';
+import { listAll, createForum, searchByTitle } from '@/services/ForumService';
 import { listAll as listMovies } from '@/services/MovieService';
 import { useUsername } from '@/hooks/useUsername';
 import './Forum.css';
@@ -9,6 +9,7 @@ const ForumIndexPage: React.FC = () => {
   const [forums, setForums] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [movies, setMovies] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const { username } = useUsername();
   const [formData, setFormData] = useState({
     title: '',
@@ -55,6 +56,22 @@ const ForumIndexPage: React.FC = () => {
     }));
   };
 
+  const handleSearch = async (searchValue: string) => {
+    setSearchTerm(searchValue);
+    
+    if (searchValue.trim() === '') {
+      await fetchForums();
+    } else {
+      try {
+        const searchResults = await searchByTitle(searchValue);
+        setForums(searchResults);
+      } catch (error) {
+        console.error('Erro ao buscar fóruns:', error);
+        await fetchForums();
+      }
+    }
+  };
+
   return (
     <div className="forum-index-page">
       <div className="forum-content">
@@ -66,6 +83,16 @@ const ForumIndexPage: React.FC = () => {
           >
             +
           </button>
+        </div>
+        
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar fóruns por título..."
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="search-input"
+          />
         </div>
         
         <div className="forums-table-container">

@@ -27,7 +27,9 @@ export default class ForumRepository {
   static searchByTitle(title: string): Promise<Forum[]> {
     return this.forumRepo
       .createQueryBuilder("forum")
+      .leftJoinAndSelect("forum.related_movie", "movie")
       .where("forum.title LIKE :title", { title: `%${title}%` })
+      .orderBy("forum.updated_at", "DESC")
       .getMany();
   }
 

@@ -28,3 +28,8 @@ export const updateForum = async (id: number, forumData: {
     return axios.put(FORUM_BASE_URL + id, forumData);
 }
 
+export const searchByTitle = async (title: string) => {
+    const response = await axios.get(FORUM_BASE_URL + 'search-by-title/' + encodeURIComponent(title));
+    return response.data;
+}
+
