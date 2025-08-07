@@ -1,0 +1,639 @@
+/* [project]/src/pages/forum/Forum.css [client] (css) */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.forum-table-title {
+  text-align: left;
+  width: 52vh;
+}
+
+tr td {
+  text-align: left;
+  width: 52vh;
+  padding-left: 5px;
+}
+
+.forum-table {
+  justify-content: center;
+  padding: 0 50vh;
+  display: grid;
+}
+
+.forum-name {
+  cursor: pointer;
+}
+
+.forum-page-container {
+  flex-direction: column;
+  align-items: center;
+  width: 200vh;
+  height: 100vh;
+  padding: 0 27vh;
+  display: flex;
+}
+
+.comments-container {
+  border-radius: 12px;
+  margin: 20px 0;
+  padding: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+}
+
+.comments-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.comment-form {
+  gap: 12px;
+  margin-bottom: 24px;
+  display: flex;
+}
+
+.comment-input {
+  border: 1px solid;
+  border-radius: 8px;
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.submit-button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 500;
+  transition: background .2s;
+}
+
+.comments-list {
+  flex-direction: column;
+  gap: 16px;
+  display: flex;
+}
+
+.comment-item {
+  position: relative;
+}
+
+.comment-content {
+  border-left: 3px solid;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.comment-header {
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  display: flex;
+}
+
+.user-avatar {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.comment-info {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.timestamp {
+  font-size: 12px;
+}
+
+.comment-text {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.comment-actions {
+  align-items: center;
+  gap: 16px;
+  display: flex;
+}
+
+.like-button, .reply-button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  transition: all .2s;
+  display: flex;
+}
+
+.comment-item:not(:first-child) {
+  position: relative;
+}
+
+.comment-item:not(:first-child):before {
+  content: "";
+  width: 2px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px;
+}
+
+@media (max-width: 768px) {
+  .comments-container {
+    padding: 16px;
+  }
+
+  .comment-form {
+    flex-direction: column;
+  }
+
+  .comment-actions {
+    flex-wrap: wrap;
+  }
+}
+
+.forums-table-container {
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.forums-table {
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+.forums-table th, .forums-table td {
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  padding: 12px;
+}
+
+.forums-table th {
+  color: #333;
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.forums-table tr:hover {
+  background: #f5f5f5;
+}
+
+.forum-title-link {
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.forum-title-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.forum-index-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.forum-content h1 {
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.forum-page-container {
+  max-width: 100%;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+.forum-title-container {
+  margin-bottom: 20px;
+}
+
+.title-display-container {
+  align-items: center;
+  gap: 10px;
+  display: flex;
+}
+
+.title-display-container h1 {
+  color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin: 0;
+}
+
+.edit-title-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 18px;
+  transition: background-color .2s;
+}
+
+.edit-title-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.title-edit-container {
+  align-items: center;
+  gap: 8px;
+  display: flex;
+}
+
+.title-edit-input {
+  color: #333;
+  border: 2px solid #007bff;
+  border-radius: 6px;
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.title-edit-input:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+
+.save-title-btn, .cancel-title-btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all .2s;
+}
+
+.save-title-btn {
+  color: #fff;
+  background: #28a745;
+}
+
+.save-title-btn:hover {
+  background: #218838;
+}
+
+.cancel-title-btn {
+  color: #fff;
+  background: #dc3545;
+}
+
+.cancel-title-btn:hover {
+  background: #c82333;
+}
+
+.forum-description-container {
+  margin-bottom: 20px;
+}
+
+.description-display-container {
+  align-items: flex-start;
+  gap: 10px;
+  display: flex;
+}
+
+.description-display-container h4 {
+  color: #666;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex: 1;
+  margin: 0;
+}
+
+.edit-description-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  margin-top: 2px;
+  padding: 4px;
+  font-size: 16px;
+  transition: background-color .2s;
+}
+
+.edit-description-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.description-edit-container {
+  flex-direction: column;
+  gap: 8px;
+  display: flex;
+}
+
+.description-edit-input {
+  color: #333;
+  resize: vertical;
+  border: 2px solid #007bff;
+  border-radius: 6px;
+  width: 100%;
+  min-height: 80px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.description-edit-input:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+
+.description-edit-buttons {
+  justify-content: flex-end;
+  gap: 8px;
+  display: flex;
+}
+
+.save-description-btn, .cancel-description-btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all .2s;
+}
+
+.save-description-btn {
+  color: #fff;
+  background: #28a745;
+}
+
+.save-description-btn:hover {
+  background: #218838;
+}
+
+.cancel-description-btn {
+  color: #fff;
+  background: #dc3545;
+}
+
+.cancel-description-btn:hover {
+  background: #c82333;
+}
+
+.forum-page-container h1 {
+  color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin-bottom: 20px;
+}
+
+.forum-page-container h4 {
+  color: #666;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin-bottom: 15px;
+}
+
+.forum-page-container p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.forum-page-container pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-width: 100%;
+  margin-bottom: 20px;
+  padding: 15px;
+  font-size: 14px;
+  overflow-x: auto;
+}
+
+.forum-page-container .comment-form {
+  margin-bottom: 20px;
+}
+
+.forum-page-container .comment-input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 100%;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.forum-page-container .submit-button {
+  color: #fff;
+  cursor: pointer;
+  background: #007bff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+}
+
+.forum-page-container .submit-button:hover {
+  background: #0056b3;
+}
+
+.forum-header {
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  display: flex;
+}
+
+.add-forum-btn {
+  color: #fff;
+  cursor: pointer;
+  background: #007bff;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  transition: all .2s;
+  display: flex;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+.add-forum-btn:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+}
+
+.modal-overlay {
+  z-index: 1000;
+  background: rgba(0, 0, 0, .5);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+}
+
+.modal-header {
+  border-bottom: 1px solid #eee;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  display: flex;
+}
+
+.modal-header h2 {
+  color: #333;
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-btn {
+  cursor: pointer;
+  color: #666;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  font-size: 24px;
+  transition: all .2s;
+  display: flex;
+}
+
+.close-btn:hover {
+  color: #333;
+  background: #f5f5f5;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 500;
+  display: block;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  transition: border-color .2s;
+}
+
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, .1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.modal-footer {
+  border-top: 1px solid #eee;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  display: flex;
+}
+
+.cancel-btn {
+  color: #666;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  transition: all .2s;
+}
+
+.cancel-btn:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.create-btn {
+  color: #fff;
+  cursor: pointer;
+  background: #007bff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all .2s;
+}
+
+.create-btn:hover {
+  background: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .modal-header, .modal-body, .modal-footer {
+    padding: 16px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .cancel-btn, .create-btn {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=src_pages_forum_Forum_css_14eac1ce._.single.css.map*/

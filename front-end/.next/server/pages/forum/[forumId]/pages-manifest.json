@@ -1,0 +1,3 @@
+{
+  "/forum/[forumId]": "pages/forum/[forumId].js"
+}

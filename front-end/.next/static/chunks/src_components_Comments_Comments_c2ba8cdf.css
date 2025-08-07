@@ -1,0 +1,50 @@
+/* [project]/src/components/Comments/Comments.css [client] (css) */
+.comments-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.comments-container h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.comment {
+  background: #f9f9f9;
+  border-left: 4px solid #007bff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+}
+
+.comment-header {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.author {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.date {
+  color: #666;
+  font-size: 14px;
+}
+
+.rating {
+  color: #ffc107;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.content {
+  color: #333;
+  line-height: 1.5;
+}
+
+/*# sourceMappingURL=src_components_Comments_Comments_c2ba8cdf.css.map*/
