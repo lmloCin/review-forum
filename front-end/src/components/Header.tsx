@@ -1,18 +1,25 @@
+"use client";
+
 import React from 'react';
-import styles from './Header.module.css';
+import Link from 'next/link';
+import styles from './Header.module.css'; // Importamos o ficheiro de estilos
+import { useAuth } from '@/context/AuthContext';
 
 const Header: React.FC = () => {
+  const { isAdmin, loginAsAdmin, logout } = useAuth();
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.brandNav}>
-          <h1 className={styles.brand}>
-            Review<span className={styles.brandAccent}>Forum</span>
-          </h1>
+          <Link href="/" className={styles.brandLink}>
+            <h1 className={styles.brand}>
+              Review<span className={styles.brandAccent}>Forum</span>
+            </h1>
+          </Link>
           <nav className={styles.nav}>
-            <a href="#">Films</a>
-            <a href="#">Lists</a>
-            <a href="#">Members</a>
+            <Link href="/">Films</Link>
+            <Link href="/forum">Forum</Link>
           </nav>
         </div>
         <div className={styles.controls}>
@@ -21,7 +28,15 @@ const Header: React.FC = () => {
             placeholder="Search..."
             className={styles.searchInput}
           />
-          <a href="#" className={styles.loginLink}>Login</a>
+          {isAdmin ? (
+            <button onClick={logout} className={styles.loginLink}>
+              Logout (Admin)
+            </button>
+          ) : (
+            <button onClick={loginAsAdmin} className={styles.loginLink}>
+              Login
+            </button>
+          )}
         </div>
       </div>
     </header>

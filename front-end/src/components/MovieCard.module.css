@@ -2,6 +2,7 @@
   position: relative;
   width: 10rem; /* 160px */
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .posterContainer {
@@ -17,7 +18,6 @@
 
 .poster {
   width: 100%;
-  height: 100%;
   object-fit: cover;
   display: block;
 }

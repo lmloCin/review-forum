@@ -1,4 +1,4 @@
-import { Movie } from "../models/Movie"
+import { Movie } from '../models/Movie';
 import MovieRepository from "../repository/MovieRepository"
 import { Review } from '../models/Review';
 import ReviewRepository from "../repository/ReviewRepository";
@@ -31,7 +31,8 @@ export default class MovieServices {
             movieDTO.year,
             movieDTO.director,
             movieDTO.tags,
-            movieDTO.availability 
+            movieDTO.availability,
+            movieDTO.bannerURL
         );
         return MovieRepository.saveMovie(movieToAdd)
     }
@@ -46,6 +47,7 @@ export default class MovieServices {
         description: string;
         averageRating: number;
         reviews: Review[];
+        bannerURL: string;
         availability?: { streaming?: string[]; rent?: string[]; purchase?: string[] };
     } | null> {
         const movieWithReviews = await MovieRepository.findByIdWithReviews(movieId);
@@ -67,7 +69,8 @@ export default class MovieServices {
             description: movieWithReviews.description,
             averageRating: parseFloat(averageRating.toFixed(1)),
             reviews: reviews || [],
-            availability: movieWithReviews.availability
+            availability: movieWithReviews.availability,
+            bannerURL: movieWithReviews.bannerURL
         };
 
         return movieDetails;
