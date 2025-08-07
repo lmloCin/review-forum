@@ -1,8 +1,8 @@
-import { AppDataSource } from "../../../src/infra/setup_db";
+import { AppDataSource } from "./setup_db";
 import { Review } from "../models/Review";
-import { Movie } from "../../../src/models/Movie";
-import { Forum } from "../../../src/models/Forum";
-import Comment from "../../../src/models/Comment";
+import { Movie } from "../models/Movie";
+import { Forum } from "../models/Forum";
+import Comment from "../models/Comment";
 
 async function cleanupDatabase() {
     try {

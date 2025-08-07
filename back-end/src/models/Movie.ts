@@ -28,11 +28,14 @@ export class Movie {
         purchase?: string[];
     };
 
+    @Column({nullable: true})
+    bannerURL!: string;
+
     @CreateDateColumn()
     created_at!: Date;
 
     @Column({nullable: true})
-    rating?: number
+    rating?: number;
 
     @OneToMany(() => Review, review => review.movie, {
         cascade: true,
@@ -40,12 +43,13 @@ export class Movie {
     })
     reviews!: Review[];
 
-    constructor(name: string, description: string, year: number, director: string, tags: string[], availability?: any) {
-        this.name = name;
-        this.description = description;
-        this.year = year;
-        this.director = director;
-        this.tags = tags?.map(n=>n.toLowerCase());
-        this.availability = availability;
-    }
-}
+
+constructor(name: string, description: string, year: number, director: string, tags: string[], availability: any, bannerURL: string) {
+    this.name = name;
+    this.description = description;
+    this.year = year;
+    this.director = director;
+    this.tags = tags?.map(n => n.toLowerCase());
+    this.availability = availability;
+    this.bannerURL = bannerURL; 
+}}
